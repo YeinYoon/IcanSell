@@ -10,11 +10,11 @@ public class WebController {
 	// 인덱스 페이지
 	@GetMapping("/")
 	public String getIndex() {
-		return "admin";
+		return "index";
 	}
 	@GetMapping("/login")
 	public String getLogin() {
-		return "admin";
+		return "login";
 	}
 
 	
@@ -25,27 +25,27 @@ public class WebController {
 		
 		@GetMapping("/")
 		public String getAdminIndex() {
-			return "test";
+			return "admin";
 		}
 		
 		@GetMapping("/sales")
 		public String getAdminSales() {
-			return "test";
+			return "sales";
 		}
 		
 		@GetMapping("/stock")
 		public String getAdminStock() {
-			return "test";
+			return "stock";
 		}
 		
 		@GetMapping("/add")
 		public String getAdminAdd() {
-			return "test";
+			return "add";
 		}
 		
 		@GetMapping("/member")
 		public String getAdminMember() {
-			return "test";
+			return "member";
 		}
 		
 	}
@@ -58,12 +58,12 @@ public class WebController {
 		
 		@GetMapping("/")
 		public String getSysAdminIndex() {
-			return "test";
+			return "sysadmin";
 		}
 		
 		@GetMapping("/seller")
 		public String getSysAdminSeller() {
-			return "test";
+			return "seller";
 		}
 		
 	}
@@ -76,23 +76,23 @@ public class WebController {
 		
 		@GetMapping("/")
 		public String getMain() {
-			return "test";
+			return "main";
 		}
 		
-		@GetMapping("/kart")
+		@GetMapping("/cart")
 		public String getMainKart() {
-			return "test";
+			return "cart";
 		}
 		
 		@RequestMapping("/order")
 		@GetMapping("/")
 		public String getOrder() {
-			return "test";
+			return "order";
 		}
 		
 		@GetMapping("/ty")
 		public String getOrderTy() {
-			return "test";
+			return "ty";
 		}
 		
 	}
