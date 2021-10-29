@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout::layout(~{::title}, ~{}, ~{#content})}">
+<head>
+<title>Cart</title>
+<meta charset="UTF-8">
+</head>
+<body>
+<div id="content">
+</div>
+    <div class="container">
+        <h3>Buy Drink</h3>    
+        <table class="table table-bordered" id="tbl-product">
+            <colgroup>
+                <col style="width: 20%;" />
+                <col style="width: 20%" />
+                <col style="width: 20%" />
+                <col style="width: 20%" />
+                <col style="width: 20%" />
+            </colgroup>
+            <thead>
+            <tr>             
+                <th>checkbox</th>   
+                <th>코드</th>   
+                <th>품목</th>
+                <th>가격</th>
+                <th>수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="${}">                
+                <td><input type="checkbox" name="fruit"></td>
+                <td th:text="${}"></td>
+                <td th:text="${}"></td>
+                <td th:text="${}"></td>
+                <td><input type="number" class="edt-qty" value="0" min="0"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="text-align: right;margin-bottom: 20px;">
+            <button type="button" class="btn btn-primary" id="btn-delete">삭제</button>
+        </div>                    
+        <table class="table table-bordered" id="tbl-total">
+            <thead>
+                <tr>
+                    <th>총수량</th>
+                    <th>총금액</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td><input type="number" readonly="readonly" id="total-qty" value="0"></td>
+                <td><input type="number" readonly="readonly" id="total-amt" value="0"></td>
+            </tbody>            
+        </table>
+    </div>    
+</body>
+</html>
