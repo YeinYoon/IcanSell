@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class WebController {
 
-	// 인덱스 페이지
+	// 인덱스 페이지 웹
 	@GetMapping("/")
 	public String getIndex() {
 		return "index";
@@ -18,7 +18,7 @@ public class WebController {
 	}
 
 	
-	// 관리자(판매자)
+	// 관리자(판매자) 웹
 	@Controller
 	@RequestMapping("/admin")
 	public class AdminWeb {
@@ -51,7 +51,7 @@ public class WebController {
 	}
 
 	
-	// 시스템 관리자
+	// 시스템 관리자 웹
 	@Controller
 	@RequestMapping("/sysadmin")
 	public class SysAdminWeb {
@@ -69,7 +69,7 @@ public class WebController {
 	}
 	
 	
-	// 소비자
+	// 소비자 웹
 	@Controller
 	@RequestMapping("/main")
 	public class ConsumerWeb {
