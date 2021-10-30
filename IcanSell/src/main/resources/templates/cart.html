@@ -8,49 +8,27 @@
 <div id="content">
 </div>
     <div class="container">
-        <h3>Buy Drink</h3>    
-        <table class="table table-bordered" id="tbl-product">
-            <colgroup>
-                <col style="width: 20%;" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-            </colgroup>
-            <thead>
-            <tr>             
-                <th>checkbox</th>   
-                <th>코드</th>   
-                <th>품목</th>
-                <th>가격</th>
-                <th>수량</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="${}">                
-                <td><input type="checkbox" name="fruit"></td>
-                <td th:text="${}"></td>
-                <td th:text="${}"></td>
-                <td th:text="${}"></td>
-                <td><input type="number" class="edt-qty" value="0" min="0"></td>
-            </tr>
-            </tbody>
+        <h3>장바구니</h3>    
+        <table>
+        <thead>
+        <tr>
+        <th>번호</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>수량</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="${:}">
+        <td th:text="${}"></td>
+        <td th:text="${}"></td>
+        <td th:text="${}"></td>
+        </tr>
+        </tbody>
         </table>
-        <div style="text-align: right;margin-bottom: 20px;">
-            <button type="button" class="btn btn-primary" id="btn-delete">삭제</button>
-        </div>                    
-        <table class="table table-bordered" id="tbl-total">
-            <thead>
-                <tr>
-                    <th>총수량</th>
-                    <th>총금액</th>
-                </tr>
-            </thead>
-            <tbody>
-                <td><input type="number" readonly="readonly" id="total-qty" value="0"></td>
-                <td><input type="number" readonly="readonly" id="total-amt" value="0"></td>
-            </tbody>            
-        </table>
-    </div>    
+        총금액<input type="number" id="totalcash">
+    </div>   
+     <button>결제하기</button>
+     <button>더 담기</button>
 </body>
 </html>

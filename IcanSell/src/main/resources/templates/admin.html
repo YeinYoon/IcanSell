@@ -5,6 +5,39 @@
     <title>Document</title>
 </head>
 <body>
-    재고확인, 매출통계확인
+    <div>
+    <h2>재고확인</h2>
+    <table>
+    <thead>
+    <tr>
+    <th>상품명</th>
+    <th>수량</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="${:}">
+    <td th:text="${}"></td>
+    <td th:tect="${}"></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    <div>
+    <h2>매출통계확인</h2>
+    <label>조회일자</label>
+    <input type="select">
+    <button id="search">조회</button>
+    <table>
+    <thead>
+    <tr>
+    <th>매출액</th>
+    </tr>
+    <tbody>
+    <tr>
+    <td th:text="${}"></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
 </body>
 </html>

@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<title>Document</title>
 </head>
+
 <body>
+	<div>
+		<h2>관리자 목록</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="${}">
+					<td th:text="${}"></td>
+					<td th:text="${}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+	<h2>관리자 등록</h2>
     <table>
-    <thead>
     <tr>
-    <th>Name</th>
-    <th>Nickname</th>
+    <td>이름</td>
+    <td><input type="text" id="ManagerName"></td>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="${}">
-    <td th:text="${}"></td>
-    <td th:text="${}"></td>
+    <tr>
+    <td>Email</td>
+    <td><input type="text" id="ManagerId"></td>
     </tr>
-    </tbody>
+    <tr>
+    <td>Password</td>
+    <td><input type="text" id="ManagerPassword"></td>
+    </tr>
+    <tr>
+    <td colspan="2" align="center">
+    <button class="btn btn-primary">등록</button>
+    </td>
+    </tr>
     </table>
-  <button class="btn btn-primary" type="button">관리자 등록</button>
+	</div>
 </body>
+
 </html>
