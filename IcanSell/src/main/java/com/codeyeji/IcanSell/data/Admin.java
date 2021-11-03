@@ -20,13 +20,54 @@ public class Admin { // 관리자(판매자) 테이블
 	private int adminId;
 	
 	@Column(nullable=false, length=100, unique=true)
-	private String a_id;
+	private String aId;
 	@Column(nullable=false, length=100)
-	private String a_pw;
-	
-	private String a_name;
+	private String aPw;
+
+	private String aName;
 	
 	@OneToMany
 	@JoinColumn(name="drinkId")
-	private List<Drink> drinks; 
+	private List<Drink> drinks;
+	
+	
+	public String getaId() {
+		return aId;
+	}
+
+	public void setaId(String aId) {
+		this.aId = aId;
+	}
+
+	public String getaPw() {
+		return aPw;
+	}
+
+	public void setaPw(String aPw) {
+		this.aPw = aPw;
+	}
+
+	public String getaName() {
+		return aName;
+	}
+
+	public void setaName(String aName) {
+		this.aName = aName;
+	}
+
+	public int getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
+	}
+
+	public List<Drink> getDrinks() {
+		return drinks;
+	}
+
+	public void setDrinks(List<Drink> drinks) {
+		this.drinks = drinks;
+	}
 }

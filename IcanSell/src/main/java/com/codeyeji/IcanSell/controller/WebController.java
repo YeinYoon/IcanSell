@@ -47,6 +47,11 @@ public class WebController {
 		public String getAdminMember() {
 			return "member";
 		}
+	// 테스트용	
+		@GetMapping("/test")
+		public String getAdminTest() {
+			return "test";
+		}
 		
 	}
 

@@ -24,20 +24,66 @@ public class Drink { // 음료 테이블
 	private int drinkId;
 	
 	@Column(nullable=false, length=20, unique=true)
-	private String d_name;
+	private String dName;
 	
-	private int d_price;
-	private int d_stock;
+	private int dPrice;
+	private int dStock;
+	private String image;
 	
 	@ManyToOne(targetEntity=Admin.class)
 	@JoinColumn(name="adminId")
 	private Admin admin;
 	
-	@OneToOne
-	@JoinColumn(name="statId")
-	private Statistics stat;
-	
 	@OneToMany
 	@JoinColumn(name="historyId")
 	private List<History> historys; 
+	
+	
+	public int getDrinkId() {
+		return drinkId;
+	}
+
+	public void setDrinkId(int drinkId) {
+		this.drinkId = drinkId;
+	}
+
+	public String getdName() {
+		return dName;
+	}
+
+	public void setdName(String dName) {
+		this.dName = dName;
+	}
+
+	public int getdPrice() {
+		return dPrice;
+	}
+
+	public void setdPrice(int dPrice) {
+		this.dPrice = dPrice;
+	}
+
+	public int getdStock() {
+		return dStock;
+	}
+
+	public void setdStock(int dStock) {
+		this.dStock = dStock;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public List<History> getHistorys() {
+		return historys;
+	}
+
+	public void setHistorys(List<History> historys) {
+		this.historys = historys;
+	}
 }
