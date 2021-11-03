@@ -14,7 +14,7 @@ import com.codeyeji.IcanSell.data.Drink;
 
 @Entity
 @Table(name="admin")
-public class Admin {
+public class Admin { // 관리자(판매자) 테이블
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int adminId;

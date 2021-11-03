@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="sysadmin")
-public class Sysadmin {
+public class Sysadmin { // 시스템관리자 테이블
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sysadminId;
