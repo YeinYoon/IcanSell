@@ -19,7 +19,7 @@ public class Admin { // 관리자(판매자) 테이블
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int adminId;
 	
-	@Column(nullable=false, length=100)
+	@Column(nullable=false, length=100, unique=true)
 	private String a_id;
 	@Column(nullable=false, length=100)
 	private String a_pw;

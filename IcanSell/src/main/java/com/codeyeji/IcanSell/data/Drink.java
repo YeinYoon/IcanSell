@@ -23,7 +23,9 @@ public class Drink { // 음료 테이블
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int drinkId;
 	
+	@Column(nullable=false, length=20, unique=true)
 	private String d_name;
+	
 	private int d_price;
 	private int d_stock;
 	
