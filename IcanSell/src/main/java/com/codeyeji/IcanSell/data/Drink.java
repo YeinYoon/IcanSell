@@ -28,15 +28,13 @@ public class Drink { // 음료 테이블
 	
 	private int dPrice;
 	private int dStock;
-	private String image;
+	private int dstat;
+	private String dimage;
+
 	
 	@ManyToOne(targetEntity=Admin.class)
 	@JoinColumn(name="adminId")
 	private Admin admin;
-	
-	@OneToMany
-	@JoinColumn(name="historyId")
-	private List<History> historys; 
 	
 	
 	public int getDrinkId() {
@@ -79,11 +77,20 @@ public class Drink { // 음료 테이블
 		this.admin = admin;
 	}
 
-	public List<History> getHistorys() {
-		return historys;
+	public void setDstat(int dstat) {
+		this.dstat = dstat;
+	}
+	public int getDstat() {
+		return dstat;
 	}
 
-	public void setHistorys(List<History> historys) {
-		this.historys = historys;
+	public String getDimage() {
+		return dimage;
 	}
+
+	public void setDimage(String dimage) {
+		this.dimage = dimage;
+	}
+
+
 }

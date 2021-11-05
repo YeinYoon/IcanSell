@@ -19,42 +19,27 @@ public class History { // 음료 판매내역 테이블
 	private int historyId;
 
 	private LocalDateTime hDate;
-	private int hPrice;
-	
-	@ManyToOne(targetEntity=Drink.class)
-	@JoinColumn(name="drinkId")
-	private Drink drink;
+	private int hPay;
 	
 	
 	public int getHistoryId() {
 		return historyId;
 	}
-
 	public void setHistoryId(int historyId) {
 		this.historyId = historyId;
 	}
-
 	public LocalDateTime gethDate() {
 		return hDate;
 	}
-
 	public void sethDate(LocalDateTime hDate) {
 		this.hDate = hDate;
 	}
-
-	public int gethPrice() {
-		return hPrice;
+	public int gethPay() {
+		return hPay;
 	}
-
-	public void sethPrice(int hPrice) {
-		this.hPrice = hPrice;
+	public void sethPay(int hPay) {
+		this.hPay = hPay;
 	}
+	
 
-	public Drink getDrink() {
-		return drink;
-	}
-
-	public void setDrink(Drink drink) {
-		this.drink = drink;
-	}
 }
