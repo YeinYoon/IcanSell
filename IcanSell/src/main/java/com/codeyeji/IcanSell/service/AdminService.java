@@ -27,6 +27,11 @@ public class AdminService {
 		return findAdmin;
 	}
 	
+	public Drink findDrink(String dName) {
+		Drink findDrink = drinkRepository.findBydName(dName);
+		return findDrink;
+	}
+	
 	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록
 	
 	

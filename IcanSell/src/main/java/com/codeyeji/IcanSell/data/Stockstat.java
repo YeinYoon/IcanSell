@@ -16,6 +16,10 @@ public class Stockstat {
 	private String statName;
 
 	
+	public Stockstat() {}
+	public Stockstat(int stat) {
+		this.statId = stat;
+	}
 	
 	public int getStatId() {
 		return statId;

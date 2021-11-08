@@ -33,15 +33,19 @@ public class Drink { // 음료 테이블
 	
 	@ManyToOne(targetEntity=Stockstat.class)
 	@JoinColumn(name="statId")
-	private Stockstat stockstat;
+	private Stockstat statId;
 	
-	
-	public Stockstat getStockstat() {
-		return stockstat;
+
+	public Stockstat getStatId() {
+		return statId;
 	}
 
-	public void setStockstat(Stockstat stockstat) {
-		this.stockstat = stockstat;
+	public void setStatId(Stockstat statId) {
+		this.statId = statId;
+	}
+	
+	public void setStatId(int statId) {
+		this.statId.setStatId(statId);
 	}
 
 	public int getDrinkId() {
