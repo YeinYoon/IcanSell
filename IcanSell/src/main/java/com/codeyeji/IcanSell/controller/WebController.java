@@ -60,11 +60,7 @@ public class WebController {
 	public String denied() {
 	 return "denied";
 	}
-	// 테스트용 로그인 폼
-	@GetMapping("/testLogin")
-	public String getTestLogin() {
-		return "testLogin";
-	}
+
 	
 	
 	// 시스템 관리자 웹
