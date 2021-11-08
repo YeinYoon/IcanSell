@@ -96,17 +96,19 @@ public class WebController {
 			return "cart";
 		}
 		
-		@RequestMapping("/order")
+	}
+	// 소비자 웹 주문 웹
+	@Controller
+	@RequestMapping("/order")
+	public class ConsumerWebOrder {
 		@GetMapping("/")
 		public String getOrder() {
 			return "order";
 		}
-		
 		@GetMapping("/ty")
 		public String getOrderTy() {
 			return "ty";
 		}
-		
 	}
 	
 }
