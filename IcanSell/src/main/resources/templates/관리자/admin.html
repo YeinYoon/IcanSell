@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Index</title>
+</head>
+<body>
+ <nav class="nav">
+        <div class="as">
+        <a href="">상품 등록</a>
+        <a href="">상품 수정</a>
+        <a href="">관리자 등록</a>
+    </div>
+    </nav>
+
+    <div class="login">
+        <p>admin1님</p>
+        <button type="button" id="logout">logout</button>
+    </div>
+
+
+    <div class="content">
+        <h3>매출 통계</h3>
+        <label id="year">조회일자 <select>
+            <option value="">2020</option>
+            <option value="" selected="selected">2021</option>
+        </select>년</label>
+        <label id="month">
+        <select>
+         <option value="1">1</option>
+         <option value="2">2</option>
+         <option value="3">3</option>
+         <option value="4">4</option>
+         <option value="5">5</option>
+         <option value="6">6</option>
+         <option value="7">7</option>
+         <option value="8">8</option>
+         <option value="9">9</option>
+         <option value="10">10</option>
+         <option value="11">11</option>
+         <option value="12">12</option>
+        </select>월</label>
+        <button type="button" id="lookUp">조회</button><br><br>
+     
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>모델명</th>
+                    <th>판매량</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="${:}">
+                    <td th:text="${}"></td>
+                    <td th:text="${}"></td>
+                    <td th:text="${}"></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+</body>
+</html>
