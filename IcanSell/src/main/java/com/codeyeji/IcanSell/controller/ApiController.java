@@ -11,15 +11,16 @@ import com.codeyeji.IcanSell.data.Result;
 import com.codeyeji.IcanSell.repository.AdminRepository;
 import com.codeyeji.IcanSell.service.AdminService;
 
+
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 	@Autowired
 	AdminService adminService;
-
+	
 	@PostMapping("/addAdmin")
 	public Result addAdmin(@RequestBody Admin admin) {
-		if(adminService.findAdminId(admin.getaId())==null) { // 중복되는 관리자가 없으면 등록 가능
+		if(!adminService.findAdminId(admin.getAdminId()).isPresent()) { // 중복되는 관리자가 없으면 등록 가능
 			adminService.addAdmin(admin);
 			return new Result("ok");
 		} else {

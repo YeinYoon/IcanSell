@@ -23,20 +23,27 @@ public class Drink { // 음료 테이블
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int drinkId;
 	
-	@Column(nullable=false, length=20, unique=true)
+	@Column(nullable=false, length=20)
 	private String dName;
 	
 	private int dPrice;
 	private int dStock;
-	private int dstat;
 	private String dimage;
 
 	
-	@ManyToOne(targetEntity=Admin.class)
-	@JoinColumn(name="adminId")
-	private Admin admin;
+	@ManyToOne(targetEntity=Stockstat.class)
+	@JoinColumn(name="statId")
+	private Stockstat stockstat;
 	
 	
+	public Stockstat getStockstat() {
+		return stockstat;
+	}
+
+	public void setStockstat(Stockstat stockstat) {
+		this.stockstat = stockstat;
+	}
+
 	public int getDrinkId() {
 		return drinkId;
 	}
@@ -68,22 +75,7 @@ public class Drink { // 음료 테이블
 	public void setdStock(int dStock) {
 		this.dStock = dStock;
 	}
-
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
-	}
-
-	public void setDstat(int dstat) {
-		this.dstat = dstat;
-	}
-	public int getDstat() {
-		return dstat;
-	}
-
+	
 	public String getDimage() {
 		return dimage;
 	}

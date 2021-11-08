@@ -1,5 +1,7 @@
 package com.codeyeji.IcanSell.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,11 @@ public class AdminService {
 	
 	
 	public void addAdmin(Admin admin) {adminRepository.save(admin);} // 관리자 등록
-	public void deleteAdmin(int adminId) {adminRepository.deleteById(adminId);} // 관리자 삭제
+	public void deleteAdmin(String adminId) {adminRepository.deleteById(adminId);} // 관리자 삭제
 	
 	
-	public Admin findAdminId(String aId) { // 아이디를 기반으로 해당하는 관리자 찾기
-		Admin findAdmin = adminRepository.findByaId(aId);
+	public Optional<Admin> findAdminId(String adminId) { // 아이디를 기반으로 해당하는 관리자 찾기
+		Optional<Admin> findAdmin = adminRepository.findById(adminId);
 		return findAdmin;
 	}
 	

@@ -16,29 +16,13 @@ import com.codeyeji.IcanSell.data.Drink;
 @Table(name="admin")
 public class Admin { // 관리자(판매자) 테이블
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int adminId;
+	private String adminId;
 	
-	@Column(nullable=false, length=100, unique=true)
-	private String aId;
 	@Column(nullable=false, length=100)
 	private String aPw;
-
 	private String aName;
 	
-	@OneToMany
-	@JoinColumn(name="drinkId")
-	private List<Drink> drinks;
 	
-	
-	public String getaId() {
-		return aId;
-	}
-
-	public void setaId(String aId) {
-		this.aId = aId;
-	}
-
 	public String getaPw() {
 		return aPw;
 	}
@@ -55,19 +39,12 @@ public class Admin { // 관리자(판매자) 테이블
 		this.aName = aName;
 	}
 
-	public int getAdminId() {
+	public String getAdminId() {
 		return adminId;
 	}
 
-	public void setAdminId(int adminId) {
+	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
 
-	public List<Drink> getDrinks() {
-		return drinks;
-	}
-
-	public void setDrinks(List<Drink> drinks) {
-		this.drinks = drinks;
-	}
 }

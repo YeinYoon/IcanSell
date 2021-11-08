@@ -5,6 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.codeyeji.IcanSell.data.Admin;
 
-public interface AdminRepository extends JpaRepository<Admin, Integer>{
-	public Admin findByaId(String string);
+public interface AdminRepository extends JpaRepository<Admin, String>{
+	public Admin findByAdminId(String string);
 }
