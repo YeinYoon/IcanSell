@@ -1,0 +1,119 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>코드 테스트용 페이지</title>
+	<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+관리자 등록 구현<br>
+	<input id="aName" type="text" placeholder="관리자 이름">
+	<input id="aId" type="text" placeholder="관리자 ID">
+	<input id="aPw" type="password" placeholder="관리자 PW">
+	<button id="signup">관리자 등록</button> <br><br>
+	
+음료 등록 구현<br>
+
+	<input id="dName" type="text" placeholder="음료 이름">
+	<input id="dPrice" type="text" placeholder="가격">
+	<input id="dStock" type="number" placeholder="수량">
+	
+	<form method="POST" enctype="multipart/form-data" id="imageFrom">
+		<input id="dImage" name="dImage" type="file">
+		<button id="add" type="submit">상품 등록</button>
+	</form>
+
+
+	
+<script>
+	$(()=>{
+		//관리자 등록
+		$("#signup").on("click", ()=> {	
+			var aName = $("#aName").val();
+			var aId = $("#aId").val();
+			var aPw = $("#aPw").val();
+			var obj = {
+				adminId : aId,
+				aName : aName,
+				aPw : aPw
+			}
+			
+			const data = JSON.stringify(obj);
+			const url = "/api/addAdmin";
+			
+			$.ajax({
+				url:url,
+				type:"post",
+				contentType:'application/json',
+				data:data
+			})
+			.done((result)=>{
+				if(result.result == "ok") {
+					alert("관리자 등록 완료");
+				} else {
+					alert("등록실패! 이미 있는 관리자 입니다.");
+				}
+			})
+			.fail((err)=>{
+				alert("관리자 등록 실패");
+			});	
+			
+		});
+		
+		
+		
+		//음료 등록
+		$("#add").on("click", ()=> {
+			
+			var dName = $("#dName").val();
+			var dPrice = $("#dPrice").val();
+			var dStock = $("#dStock").val();
+			
+			var dImage = $("#imageForm")[0];
+			var imageData = new FormData(dImage);
+			
+			if(dStock<0) {
+				alert("재고는 0개 이상으로 입력해주세요.")
+			} else {
+						
+				var obj = {
+					dName : dName,
+					dPrice : dPrice,
+					dStock : dStock,
+				}
+			
+				const data = JSON.stringify(obj);
+				const url = "/api/addDrink";
+				
+				$.ajax({
+					url:url,
+					type:"post",
+					contentType:'application/json',
+					data:data
+				})
+				.done((result)=>{
+					if(result.result == "ok") {
+						alert("음료 등록 완료");
+					} else {
+						alert("음료 등록을 실패했습니다. 이미 판매중인 음료입니다.");
+					}
+				})
+				.fail((err)=>{
+					alert("ERR : 음료 등록 실패");
+				});	
+						
+			}
+			
+			
+		});
+		
+		
+		
+	});
+
+</script>
+</body>
+</html>
