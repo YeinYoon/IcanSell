@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{AdminLayout::AdminLayout(~{::title}, ~{}, ~{::#content})}">
 
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>add</title>
 </head>
 
 <body>
+<div id="content">
+</div>
 	<nav>
 		<div class="nav">
 			<a href="">상품 등록</a>
