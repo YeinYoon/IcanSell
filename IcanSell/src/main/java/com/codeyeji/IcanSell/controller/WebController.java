@@ -54,11 +54,6 @@ public class WebController {
 			return "test";
 		}
 		
-		@GetMapping("/testErr")
-		public String getAdminTestErr() {
-			return "testErr";
-		}
-
 	}
 	// 테스트용 접근금지 html
 	@GetMapping("/denied")
