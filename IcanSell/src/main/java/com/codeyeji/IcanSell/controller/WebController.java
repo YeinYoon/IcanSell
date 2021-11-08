@@ -2,6 +2,7 @@ package com.codeyeji.IcanSell.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -53,8 +54,23 @@ public class WebController {
 			return "test";
 		}
 		
-	}
+		@GetMapping("/testErr")
+		public String getAdminTestErr() {
+			return "testErr";
+		}
 
+	}
+	// 테스트용 접근금지 html
+	@GetMapping("/denied")
+	public String denied() {
+	 return "denied";
+	}
+	// 테스트용 로그인 폼
+	@GetMapping("/testLogin")
+	public String getTestLogin() {
+		return "testLogin";
+	}
+	
 	
 	// 시스템 관리자 웹
 	@Controller

@@ -16,19 +16,16 @@
 	<button id="signup">관리자 등록</button> <br><br>
 	
 음료 등록 구현<br>
-
-	<input id="dName" type="text" placeholder="음료 이름">
-	<input id="dPrice" type="text" placeholder="가격">
-	<input id="dStock" type="number" placeholder="수량">
-	
-	<form method="POST" enctype="multipart/form-data" id="imageFrom">
-		<input id="dImage" name="dImage" type="file">
-		<button id="add" type="submit">상품 등록</button>
-	</form>
-
+<form th:action="@{/api/addDrink}" method="POST" enctype="multipart/form-data">
+	<input name="dName" type="text" placeholder="음료 이름">
+	<input name="dPrice" type="text" placeholder="가격">
+	<input name="dStock" type="number" placeholder="수량">
+	<input name="dImage" type="file">
+	<button id="add" type="submit">상품 등록</button>
+</form>
 
 	
-<script>
+<script th:inline="javascript">
 	$(()=>{
 		//관리자 등록
 		$("#signup").on("click", ()=> {	
@@ -44,11 +41,15 @@
 			const data = JSON.stringify(obj);
 			const url = "/api/addAdmin";
 			
+			const csrfToken=/*[[${_csrf.token}]]*/ null;
+			const csrfHeader=/*[[${_csrf.headerName}]]*/ null;
+			
 			$.ajax({
 				url:url,
 				type:"post",
 				contentType:'application/json',
-				data:data
+				data:data,
+				beforeSend:function(xhr){ xhr.setRequestHeader(csrfHeader, csrfToken);}
 			})
 			.done((result)=>{
 				if(result.result == "ok") {
@@ -62,55 +63,7 @@
 			});	
 			
 		});
-		
-		
-		
-		//음료 등록
-		$("#add").on("click", ()=> {
 			
-			var dName = $("#dName").val();
-			var dPrice = $("#dPrice").val();
-			var dStock = $("#dStock").val();
-			
-			var dImage = $("#imageForm")[0];
-			var imageData = new FormData(dImage);
-			
-			if(dStock<0) {
-				alert("재고는 0개 이상으로 입력해주세요.")
-			} else {
-						
-				var obj = {
-					dName : dName,
-					dPrice : dPrice,
-					dStock : dStock,
-				}
-			
-				const data = JSON.stringify(obj);
-				const url = "/api/addDrink";
-				
-				$.ajax({
-					url:url,
-					type:"post",
-					contentType:'application/json',
-					data:data
-				})
-				.done((result)=>{
-					if(result.result == "ok") {
-						alert("음료 등록 완료");
-					} else {
-						alert("음료 등록을 실패했습니다. 이미 판매중인 음료입니다.");
-					}
-				})
-				.fail((err)=>{
-					alert("ERR : 음료 등록 실패");
-				});	
-						
-			}
-			
-			
-		});
-		
-		
 		
 	});
 

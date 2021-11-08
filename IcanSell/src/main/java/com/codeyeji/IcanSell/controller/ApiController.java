@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.codeyeji.IcanSell.config.SecurityConfig;
 import com.codeyeji.IcanSell.data.Admin;
 import com.codeyeji.IcanSell.data.Drink;
 import com.codeyeji.IcanSell.data.Result;
@@ -23,10 +24,15 @@ import com.codeyeji.IcanSell.service.AdminService;
 public class ApiController {
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	SecurityConfig securityConfig;
 	
 	@PostMapping("/addAdmin")
 	public Result addAdmin(@RequestBody Admin admin) {
 		if(!adminService.findAdminId(admin.getAdminId()).isPresent()) { // 중복되는 관리자가 없으면 등록 가능
+			String pw = securityConfig.passwordEncoder().encode(admin.getaPw());
+			admin.setaPw(pw);
+			admin.setRole("admin");
 			adminService.addAdmin(admin);
 			return new Result("ok");
 		} else {
@@ -35,21 +41,29 @@ public class ApiController {
 		
 	}
 
+	
 	@PostMapping("/addDrink")
-	public Result addDrink(@RequestBody Drink drink, @RequestParam(name="dImage") MultipartFile files) {
+	public String addDrinkImage(
+			@RequestParam(name="dName") String dName,
+			@RequestParam(name="dPrice") int dPrice,
+			@RequestParam(name="dStock") int dStock,
+			@RequestParam(name="dImage") MultipartFile files) {
+
+		Drink drink = new Drink(dName,dPrice,dStock);
+		
+		try { // 이미지 경로를 DB에 셋팅
+			String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
+			String filePath = baseDir + "\\" + files.getOriginalFilename();
+			files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
+			drink.setDimage(filePath);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		Stockstat statId1 = new Stockstat(1); // 판매중
 		Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)
 		
 		if(adminService.findDrink(drink.getdName())==null) { // 중복되는 음료가 없으면 등록 가능
-			
-			try { // 이미지 경로를 DB에 셋팅
-				String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
-				String filePath = baseDir + "\\" + files.getOriginalFilename();
-				files.transferTo(new File(filePath));
-				drink.setDimage(filePath);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 			
 			if(drink.getdStock()>0) { // 할당한 재고가 0보다 큰가?
 				drink.setStatId(statId1); // 판매중으로 변경
@@ -57,25 +71,15 @@ public class ApiController {
 				drink.setStatId(statId2); // 재고소진(입고예정)으로 변경
 			}
 			adminService.addDrink(drink);
-			return new Result("ok");
+			return "<h2>상품 등록이 완료되었습니다. </h2>"
+					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/test\" />"; // 등록 성공한 후 이동할 페이지
 		} else {
-			return new Result("ng");
+			return "<h2>상품 등록을 실패하였습니다. 중복된 음료입니다. </h2>"
+					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/test\" />"; // 등록 성공한 후 이동할 페이지
 		}
+		
 	}
 
-	
-	
-	
-	
-//로그인 코드인데 아직 수업 진도 못빼서 미완성
-//	@PostMapping("/adminLogin")
-//	public Result adminLogin(@RequestBody Admin admin) {
-//		if(adminService.findAdminId(admin.getA_id())==null) { // 해당하는 관리자가 없으면 로그인 불가
-//			return new Result("faild");
-//		} else {
-			
-//		}
-//	}
 	
 	
 }

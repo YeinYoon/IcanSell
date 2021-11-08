@@ -22,7 +22,18 @@ public class Admin { // 관리자(판매자) 테이블
 	private String aPw;
 	private String aName;
 	
+	@Column(nullable=false,length=100)
+	private String role="admin";
 	
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public String getaPw() {
 		return aPw;
 	}

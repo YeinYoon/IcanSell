@@ -35,6 +35,12 @@ public class Drink { // 음료 테이블
 	@JoinColumn(name="statId")
 	private Stockstat statId;
 	
+	public Drink() {}
+	public Drink(String dName, int dPrice, int dStock) {
+		this.dName = dName;
+		this.dPrice = dPrice;
+		this.dStock = dStock;
+	}
 
 	public Stockstat getStatId() {
 		return statId;
