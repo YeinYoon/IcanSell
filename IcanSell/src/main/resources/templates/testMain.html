@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   음료목록
+   <div th:if="${not #lists.isEmpty(drinks)}">
+   
+   <table border="2px">
+   	<thead>
+   		<th>이미지</th>
+   		<th>이름</th>
+   		<th>가격</th>
+   		<th>재고</th>
+   		<th>상태</th>
+   	</thead>
+   	<tbody>
+   		<tr th:each="d: ${drinks}">
+   			<td><img th:src="@{|/drinkImages/${d.dImgName}|}" width=30 height=30/></td>
+   			<td th:text="${d.dName}"></td>
+   			<td th:text="${d.dPrice}"></td>
+   			<td th:text="${d.dStock}"></td>
+   			<td th:text="${d.statId.statName}"></td>
+   		</tr>
+   	</tbody>
+   </table>
+  
+  </div>
+  
+ <div th:unless="${not #lists.isEmpty(drinks)}">
+	<h2>현재 판매중인 음료가 없습니다.</h2>
+</div>
+  
+</body>
+</html>

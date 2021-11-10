@@ -55,7 +55,8 @@ public class ApiController {
 			String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
 			String filePath = baseDir + "\\" + files.getOriginalFilename();
 			files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
-			drink.setDimage(filePath);
+			drink.setdImgSrc(filePath);
+			drink.setdImgName(files.getOriginalFilename());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -75,7 +76,7 @@ public class ApiController {
 					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/test\" />"; // 등록 성공한 후 이동할 페이지
 		} else {
 			return "<h2>상품 등록을 실패하였습니다. 중복된 음료입니다. </h2>"
-					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/test\" />"; // 등록 성공한 후 이동할 페이지
+					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/test\" />"; // 등록 실패한 후 이동할 페이지
 		}
 		
 	}

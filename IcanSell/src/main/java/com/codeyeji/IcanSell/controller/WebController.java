@@ -1,12 +1,23 @@
 package com.codeyeji.IcanSell.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.codeyeji.IcanSell.service.AdminService;
+import com.codeyeji.IcanSell.service.ClientService;
+
 @Controller
 public class WebController {
+	
+	@Autowired
+	ClientService clientService;
+	@Autowired
+	AdminService adminService;
 
 	// 인덱스 페이지 웹
 	@GetMapping("/")
@@ -54,6 +65,12 @@ public class WebController {
 			return "test";
 		}
 		
+		@GetMapping("/testCrud")
+		public String getAdminTestCrud(Model model) {
+			model.addAttribute("drinks", adminService.findDrinkAll());
+			return "testCrud";
+		}
+		
 	}
 	// 테스트용 접근금지 html
 	@GetMapping("/denied")
@@ -84,7 +101,7 @@ public class WebController {
 	// 소비자 웹
 	@Controller
 	@RequestMapping("/main")
-	public class ConsumerWeb {
+	public class ClientWeb {
 		
 		@GetMapping("/")
 		public String getMain() {
@@ -96,11 +113,18 @@ public class WebController {
 			return "cart";
 		}
 		
+		// 테스트용(코드 테스트용)	
+		@GetMapping("/testMain")
+		public String getMainTest(Model model) {
+			model.addAttribute("drinks", clientService.findDrinkAll());
+			return "testMain";
+		}
+		
 	}
 	// 소비자 웹 주문 웹
 	@Controller
 	@RequestMapping("/order")
-	public class ConsumerWebOrder {
+	public class ClientWebOrder {
 		@GetMapping("/")
 		public String getOrder() {
 			return "order";

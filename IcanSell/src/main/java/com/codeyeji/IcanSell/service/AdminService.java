@@ -1,5 +1,6 @@
 package com.codeyeji.IcanSell.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,13 @@ public class AdminService {
 		return findAdmin;
 	}
 	
-	public Drink findDrink(String dName) {
+	public Drink findDrink(String dName) { // 이름을 기반으로 해당하는 음료 찾기
 		Drink findDrink = drinkRepository.findBydName(dName);
 		return findDrink;
+	}
+	
+	public List<Drink> findDrinkAll() { // 모든 음료 찾기
+		return drinkRepository.findAll();
 	}
 	
 	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록

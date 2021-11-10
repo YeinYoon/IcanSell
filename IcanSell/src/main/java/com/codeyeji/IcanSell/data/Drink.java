@@ -28,7 +28,8 @@ public class Drink { // 음료 테이블
 	
 	private int dPrice;
 	private int dStock;
-	private String dimage;
+	private String dImgSrc;
+	private String dImgName;
 
 	
 	@ManyToOne(targetEntity=Stockstat.class)
@@ -86,13 +87,19 @@ public class Drink { // 음료 테이블
 		this.dStock = dStock;
 	}
 	
-	public String getDimage() {
-		return dimage;
+	public String getdImgSrc() {
+		return dImgSrc;
 	}
-
-	public void setDimage(String dimage) {
-		this.dimage = dimage;
+	public void setdImgSrc(String dImgSrc) {
+		this.dImgSrc = dImgSrc;
 	}
+	public String getdImgName() {
+		return dImgName;
+	}
+	public void setdImgName(String dImgName) {
+		this.dImgName = dImgName;
+	}
+	
 
 
 }
