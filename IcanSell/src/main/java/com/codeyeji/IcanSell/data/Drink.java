@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.codeyeji.IcanSell.data.Admin;
 
@@ -30,11 +31,26 @@ public class Drink { // 음료 테이블
 	private int dStock;
 	private String dImgSrc;
 	private String dImgName;
+	
+	
+	@Transient // 컬럼으로 생성되지 않는 숨겨진 값, 수정용
+	private String newdName;
+	@Transient 
+	private int newdPrice;
+	@Transient 
+	private int newdStock;
+	
+	@Transient 
+	private String newdImgSrc;
 
+	@Transient 
+	private String newdImgName;
+	
 	
 	@ManyToOne(targetEntity=Stockstat.class)
 	@JoinColumn(name="statId")
 	private Stockstat statId;
+	
 	
 	public Drink() {}
 	public Drink(String dName, int dPrice, int dStock) {
@@ -42,6 +58,8 @@ public class Drink { // 음료 테이블
 		this.dPrice = dPrice;
 		this.dStock = dStock;
 	}
+	
+	
 
 	public Stockstat getStatId() {
 		return statId;
@@ -100,6 +118,35 @@ public class Drink { // 음료 테이블
 		this.dImgName = dImgName;
 	}
 	
-
+	public String getNewdName() {
+		return newdName;
+	}
+	public void setNewdName(String newdName) {
+		this.newdName = newdName;
+	}
+	public int getNewdPrice() {
+		return newdPrice;
+	}
+	public void setNewdPrice(int newdPrice) {
+		this.newdPrice = newdPrice;
+	}
+	public int getNewdStock() {
+		return newdStock;
+	}
+	public void setNewdStock(int newdStock) {
+		this.newdStock = newdStock;
+	}
+	public String getNewdImgSrc() {
+		return newdImgSrc;
+	}
+	public void setNewdImgSrc(String newdImgSrc) {
+		this.newdImgSrc = newdImgSrc;
+	}
+	public String getNewdImgName() {
+		return newdImgName;
+	}
+	public void setNewdImgName(String newdImgName) {
+		this.newdImgName = newdImgName;
+	}
 
 }

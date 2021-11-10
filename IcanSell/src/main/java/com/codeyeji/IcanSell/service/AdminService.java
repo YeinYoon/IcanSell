@@ -28,16 +28,22 @@ public class AdminService {
 		return findAdmin;
 	}
 	
-	public Drink findDrink(String dName) { // 이름을 기반으로 해당하는 음료 찾기
+	public Drink findDrink(String dName) { // 이름을 기반으로 해당하는 음료상품 찾기
 		Drink findDrink = drinkRepository.findBydName(dName);
 		return findDrink;
 	}
 	
-	public List<Drink> findDrinkAll() { // 모든 음료 찾기
+	public Optional<Drink> findDrinkId(int drinkId) { // PK(음료 고유아이디)를 기반으로 해당하는 음료상품 찾기
+		Optional<Drink> findDrink = drinkRepository.findById(drinkId);
+		return findDrink;
+	}
+	
+	public List<Drink> findDrinkAll() { // 모든 음료상품 찾기
 		return drinkRepository.findAll();
 	}
 	
 	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록
+	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);}
 	
 	
 	
