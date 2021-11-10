@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout::layout(~{::title}, ~{}, ~{::#content})}">
+
 <head>
-    <title>Document</title>
+	<title>Document</title>
 </head>
+
 <body>
-<div id="content">
-</div>
-    장바구니에 물건을 담은 이후 주문 및 결제 페이지
+	<div class="content">
+		<button id="card">카드로 결제하기</button>
+		<button id="cash">현금으로 결제하기</button>
+	</div>
 </body>
+
 </html>

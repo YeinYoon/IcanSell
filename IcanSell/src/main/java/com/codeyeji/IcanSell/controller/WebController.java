@@ -24,40 +24,31 @@ public class WebController {
 	public String getIndex() {
 		return "index";
 	}
-	@GetMapping("/login")
-	public String getLogin() {
-		return "login";
-	}
+
 
 	
 	// 관리자(판매자) 웹
 	@Controller
 	@RequestMapping("/admin")
 	public class AdminWeb {
-		
-		@GetMapping("/")
-		public String getAdminIndex() {
-			return "admin";
-		}
-		
-		@GetMapping("/sales")
-		public String getAdminSales() {
-			return "sales";
-		}
-		
-		@GetMapping("/stock")
-		public String getAdminStock() {
-			return "stock";
+
+		@GetMapping("/login")
+		public String getLogin() {
+			return "admin/login";
+	}
+		@GetMapping("/edit")
+		public String getAdminEdit() {
+			return "admin/edit";
 		}
 		
 		@GetMapping("/add")
 		public String getAdminAdd() {
-			return "add";
+			return "admin/add";
 		}
 		
 		@GetMapping("/member")
 		public String getAdminMember() {
-			return "member";
+			return "admin/member";
 		}
 	// 테스트용(코드 테스트용)	
 		@GetMapping("/test")
@@ -84,15 +75,11 @@ public class WebController {
 	@Controller
 	@RequestMapping("/sysadmin")
 	public class SysAdminWeb {
+
 		
-		@GetMapping("/")
-		public String getSysAdminIndex() {
-			return "sysadmin";
-		}
-		
-		@GetMapping("/seller")
+		@GetMapping("/sysadmin")
 		public String getSysAdminSeller() {
-			return "seller";
+			return "sysadmin/sysadmin";
 		}
 		
 	}
@@ -105,12 +92,12 @@ public class WebController {
 		
 		@GetMapping("/")
 		public String getMain() {
-			return "main";
+			return "client/main";
 		}
 		
 		@GetMapping("/cart")
 		public String getMainKart() {
-			return "cart";
+			return "client/cart";
 		}
 		
 		// 테스트용(코드 테스트용)	
@@ -127,11 +114,11 @@ public class WebController {
 	public class ClientWebOrder {
 		@GetMapping("/")
 		public String getOrder() {
-			return "order";
+			return "client/order";
 		}
 		@GetMapping("/ty")
 		public String getOrderTy() {
-			return "ty";
+			return "client/ty";
 		}
 	}
 	
