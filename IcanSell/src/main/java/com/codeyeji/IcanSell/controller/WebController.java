@@ -24,7 +24,10 @@ public class WebController {
 	public String getIndex() {
 		return "index";
 	}
-
+	@GetMapping("/login")
+	public String getLogin() {
+		return "admin/login";
+	}
 
 	
 	// 관리자(판매자) 웹
@@ -32,10 +35,11 @@ public class WebController {
 	@RequestMapping("/admin")
 	public class AdminWeb {
 
-		@GetMapping("/login")
-		public String getLogin() {
-			return "admin/login";
-	}
+		@GetMapping("/")
+		public String getAdminIndex() {
+			return "admin/admin";
+		}
+		
 		@GetMapping("/edit")
 		public String getAdminEdit() {
 			return "admin/edit";
@@ -76,8 +80,7 @@ public class WebController {
 	@RequestMapping("/sysadmin")
 	public class SysAdminWeb {
 
-		
-		@GetMapping("/sysadmin")
+		@GetMapping("/")
 		public String getSysAdminSeller() {
 			return "sysadmin/sysadmin";
 		}
