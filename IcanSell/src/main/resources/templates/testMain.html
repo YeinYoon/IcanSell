@@ -17,6 +17,7 @@
    		<th>가격</th>
    		<th>재고</th>
    		<th>상태</th>
+   		<th>담기</th>
    	</thead>
    	<tbody>
    		<tr th:each="d: ${drinks}">
@@ -25,16 +26,102 @@
    			<td th:text="${d.dPrice}"></td>
    			<td th:text="${d.dStock}"></td>
    			<td th:text="${d.statId.statName}"></td>
+   			<td><button class="buttons" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}" data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}">담기</button></td>
    		</tr>
    	</tbody>
    </table>
   
+  
+  
+  장바구니
+   <table id="cartTable" border="2px">
+   		<thead>
+   			<th>이름</th>
+   			<th>가격</th>
+   			<th>개수</th>
+   			<th>증가</th>
+   			<th>감소</th>
+   			<th>삭제</th>
+   		</thead>
+   		<tbody>
+   		</tbody>
+   </table>
+  <button id="order">결제하러 가기</button>
+  
   </div>
   
  <div th:unless="${not #lists.isEmpty(drinks)}">
-	<h2>현재 판매중인 음료가 없습니다.</h2>
+	<h2>현재 판매중인 음료가 없습니다. 새로운 상품이 들어올 때까지 기다려주세요!</h2>
 </div>
   
   
+  
+
+
+
+  
+<script>
+
+	$(()=>{
+		
+		$('.buttons').click(function(){
+			var drinkId = $(this).attr("id");
+			var dName = $(this).attr("dName");
+			var dPrice = $(this).attr("dPrice");
+			var isExist = false;
+				
+			for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
+				var findId = 0;
+				findId = $("#cartTable tbody").children().eq(i).attr("id");
+				if (drinkId == findId) {
+					alert("이미 담긴 상품입니다.");
+					isExist = true;
+				}
+			} 
+			
+			if(isExist == false) {
+				var drink = "<tr id='" + drinkId + "'" + ">";
+
+				drink += "<td>" + dName + "</td>";
+				drink += "<td>" + dPrice + "</td>";
+				drink += "<td>" + 1 + "</td>";
+				drink += "<td>" + "<button class='countUp'data-drinkId='"+drinkId+"'>"+"+1</button>";
+				drink += "<td>" + "<button class='countDown''data-drinkId='"+drinkId+"'>"+"-1</button>";
+				drink += "<td>" + "<button class='delete' data-drinkId='"+drinkId+"'>"+"삭제</button>" + "</td>";
+
+				drink += "</tr>";
+
+				$("#cartTable tbody").append(drink);
+			}
+						
+		});	
+		
+		
+		$("#cartTable tbody").on("click", ".delete", function() {
+			$(this).closest("tr").remove();
+		});
+
+		$("#cartTable tbody").on("click", ".countUp", function() {
+			var count = $(this).closest("tr").children().eq(2).text();
+			count++;
+			$(this).closest("tr").children().eq(2).text(count);
+			
+		});
+		
+		$("#cartTable tbody").on("click", ".countDown", function() {
+			var count = $(this).closest("tr").children().eq(2).text();
+			if(count==1) {
+				alert("담는 상품의 최소 개수는 1개부터 입니다.")
+			} else {
+				count--;
+				$(this).closest("tr").children().eq(2).text(count);
+			}
+		});
+			
+		
+	})
+		
+	
+</script>
 </body>
 </html>

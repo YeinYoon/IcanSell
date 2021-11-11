@@ -36,10 +36,19 @@
    			<td><button id="putName">이름수정</button></td>
    			<td><button id="putPrice">가격수정</button></td>
    			<td><button id="putStock">재고수정</button></td>
-   			<td><button id="putImg">이미지수정</button></td>
+   			<td>
+   				<form th:action="@{/api/putDrinkImg}" method="POST" enctype="multipart/form-data">
+   					<input name="drinkId" type="hidden" th:value="${d.drinkId}">
+   					<input name="currentdImgSrc" type="hidden" th:value="${d.dImgSrc}">
+   					<input name="newdImg" type="file">
+   					<input id="putImg" value="이미지 수정" type="submit"></button>
+   				</form>
+   			</td>
    		</tr>
    	</tbody>
    </table>
+  
+  <a href="/admin/test">새 상품 등록하러가기</a>
   
   </div>
   
@@ -105,7 +114,9 @@
 			var nameInput = prompt("해당 상품의 새로운 이름을 입력해주세요.");
 			if(nameInput == "" || nameInput == $("#dName").text()) {
 				alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
-			} else {
+			} else if(nameInput == null) {
+				alert("취소되었습니다.");
+			} else{
 				
 				var drinkId = $("#dName").attr("drinkId");
 				var dName = $("#dName").text();
@@ -240,48 +251,7 @@
 			
 		});			
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		
 	});
   

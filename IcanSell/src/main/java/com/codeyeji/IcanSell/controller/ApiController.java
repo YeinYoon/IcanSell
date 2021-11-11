@@ -151,15 +151,45 @@ public class ApiController {
 		}		
 	}
 	
-	@PutMapping("/putDrinkImg")
-	public Result putDrinkImg(@RequestParam(name="drinkId") int drinkId, @RequestParam(name="dImage") MultipartFile files) {
-		if(adminService.findDrinkId(drinkId).isPresent()) {
+	@PostMapping("/putDrinkImg")
+	public String putDrinkImg(
+			@RequestParam(name="drinkId") int drinkId,
+			@RequestParam(name="newdImg") MultipartFile newFiles,
+			@RequestParam(name="currentdImgSrc") String currentdImgSrc) {
+		
+		Optional<Drink> findDrink = adminService.findDrinkId(drinkId);
+		if(findDrink.isPresent()) {
 			
+			if(newFiles.isEmpty()) { // 업로드된 이미지가 없을 경우
+				return "<h2>업로드 된 이미지가 존재하지 않습니다. 파일 업로드 내역을 확인해주세요.</h2>"
+						+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+			} else { // 업로드 된 이미지가 있을 경우
+				
+				try { // 이미지 경로 및 이름 바꾸기
+					String currnetdImgSrc = currentdImgSrc; // 기존 이미지 경로
+					String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
+					String newFilePath = baseDir + "\\" + newFiles.getOriginalFilename();
+					
+					File file = new File(currnetdImgSrc);
+					file.delete();
+					System.out.println("기존 상품이미지 삭제 : "+currnetdImgSrc);
+					
+					newFiles.transferTo(new File(newFilePath)); // 해당 경로에 이미지 파일 저장
+					findDrink.get().setdImgSrc(newFilePath);
+					findDrink.get().setdImgName(newFiles.getOriginalFilename());
+					adminService.addDrink(findDrink.get());
+					System.out.println("새 상품이미지 추가 : "+newFilePath);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				return "<h2>상품 이미지 수정이 완료되었습니다. </h2>"
+				+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+			}
 			
-			return new Result("ok");
-		} else {
-			return new Result("ng");
-		}
+		} else { // 업로드 된 이미지가 있으나 알 수 없는 오류일 경우
+			return "<h2>이미지 수정을 실패하였습니다.</h2>"
+					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+		}	
 	}
 	
 	
