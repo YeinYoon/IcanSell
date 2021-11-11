@@ -25,23 +25,23 @@
    	</thead>
    	<tbody>
    		<tr th:each="d: ${drinks}">
-   			<td id="dImg" data-th-dImgSrc="${d.dImgSrc}" data-th-dImgName="${d.dImgName}">
+   			<td class="dImg" data-th-dImgSrc="${d.dImgSrc}" data-th-dImgName="${d.dImgName}">
    				<img th:src="@{|/drinkImages/${d.dImgName}|}" width=30 height=30/>
    			</td>
-   			<td id="dName" data-th-drinkId="${d.drinkId}" th:text="${d.dName}"></td>
-   			<td id="dPrice" th:text="${d.dPrice}"></td>
-   			<td id="dStock" th:text="${d.dStock}"></td>
-   			<td id="stat" data-th-statId="${d.statId.statId}" th:text="${d.statId.statName}"></td>
-   			<td><button id="delete">삭제</button></td>
-   			<td><button id="putName">이름수정</button></td>
-   			<td><button id="putPrice">가격수정</button></td>
-   			<td><button id="putStock">재고수정</button></td>
+   			<td class="dName" data-th-drinkId="${d.drinkId}" th:text="${d.dName}"></td>
+   			<td class="dPrice" th:text="${d.dPrice}"></td>
+   			<td class="dStock" th:text="${d.dStock}"></td>
+   			<td class="stat" data-th-statId="${d.statId.statId}" th:text="${d.statId.statName}"></td>
+   			<td><button class="delete">삭제</button></td>
+   			<td><button class="putName">이름수정</button></td>
+   			<td><button class="putPrice">가격수정</button></td>
+   			<td><button class="putStock">재고수정</button></td>
    			<td>
    				<form th:action="@{/api/putDrinkImg}" method="POST" enctype="multipart/form-data">
    					<input name="drinkId" type="hidden" th:value="${d.drinkId}">
    					<input name="currentdImgSrc" type="hidden" th:value="${d.dImgSrc}">
    					<input name="newdImg" type="file">
-   					<input id="putImg" value="이미지 수정" type="submit"></button>
+   					<input class="putImg" value="이미지 수정" type="submit"></button>
    				</form>
    			</td>
    		</tr>
@@ -65,13 +65,13 @@
   	$(()=>{
 		
 		// 상품 삭제
-		$("#delete").on("click", ()=>{
+		$('.delete').click(function(){
 			if(confirm("선택한 상품을 삭제하시겠습니까?") == false) {
 				alert("취소되었습니다.")
 			} else {
 		
-				var drinkId = $("#dName").attr("drinkId");
-				var dImgSrc = $("#dImg").attr("dImgSrc");
+				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+				var dImgSrc = $(this).closest("tr").children().eq(0).attr("dImgSrc");
 				var obj = {
 					drinkId : drinkId,
 					dImgSrc : dImgSrc
@@ -110,7 +110,7 @@
 		
 		
 		// 상품 이름 수정
-		$("#putName").on("click", ()=>{
+		$('.putName').click(function(){
 			var nameInput = prompt("해당 상품의 새로운 이름을 입력해주세요.");
 			if(nameInput == "" || nameInput == $("#dName").text()) {
 				alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
@@ -118,8 +118,7 @@
 				alert("취소되었습니다.");
 			} else{
 				
-				var drinkId = $("#dName").attr("drinkId");
-				var dName = $("#dName").text();
+				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
 				
 				var obj = {
 					drinkId : drinkId,
@@ -159,14 +158,13 @@
 		
 		
 		//상품 가격 변경
-		$("#putPrice").on("click", ()=>{
+		$('.putPrice').click(function(){
 			var priceInput = prompt("해당 상품의 새로운 가격을 입력해주세요.");
 			if(priceInput == "" || priceInput <= 0 || priceInput == Number($("#dPrice").text())) {
 				alert("공백값이나 0원 미만 또는 동일한 가격은 입력할 수 없습니다.");
 			} else {
 				
-				var drinkId = $("#dName").attr("drinkId");
-				var dPrice = Number($("#dPrice").text());
+				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
 				
 				var obj = {
 					drinkId : drinkId,
@@ -206,14 +204,13 @@
 		
 		
 		//상품 재고 변경
-		$("#putStock").on("click", ()=>{
+		$('.putStock').click(function(){
 			var stockInput = prompt("해당 상품의 재고를 입력해주세요.");
 			if(stockInput == "" || stockInput < 0) {
 				alert("공백값이나 0개 미만은 입력할 수 없습니다.");
 			} else {
 				
-				var drinkId = $("#dName").attr("drinkId");
-				var dStock = Number($("#dStock").text());
+				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
 				
 				var obj = {
 					drinkId : drinkId,
