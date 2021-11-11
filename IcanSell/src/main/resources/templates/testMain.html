@@ -60,7 +60,7 @@
 
 
   
-<script>
+<script th:inline="javascript">
 
 	$(()=>{
 		
@@ -125,6 +125,51 @@
 				$(this).closest("tr").children().eq(2).text(count);
 			}
 		});
+			
+			
+		$("#order").on('click', ()=> { // 주문하러 가기
+			var drinkData = new Array();
+			
+			for(var i=0; i<$("#cartTable tbody tr").length; i++) { // 객체 배열 생성
+				drinkData.push({
+					dName: $("#cartTable tbody").children().eq(i).children().eq(0).text(), // 이름
+					dPrice: $("#cartTable tbody").children().eq(i).children().eq(1).text(), // 가격
+					dCount: $("#cartTable tbody").children().eq(i).children().eq(2).text() // 수량
+				})	
+			}
+			console.log(drinkData);
+			var data = JSON.stringify(drinkData);
+			var url = "/api/order";
+			
+			const csrfToken=/*[[${_csrf.token}]]*/ null;
+			const csrfHeader=/*[[${_csrf.headerName}]]*/ null;
+			
+			$.ajax({
+				url:url,
+				type:"post",
+				contentType:'application/json',
+				traditional:true,
+				data: {
+					drinkList : data
+				},
+				beforeSend:function(xhr){ xhr.setRequestHeader(csrfHeader, csrfToken);}
+			})
+			.done((result)=>{
+				if(result.result == "ok") {
+					alert("결제화면으로 이동합니다.");
+					location.href="/order/";
+				} else {
+					alert("담은 상품이 없습니다.");
+				}
+			})
+			.fail((err)=>{
+				alert("ERR : 오류발생");
+			});
+			
+			
+			
+			
+		})	
 			
 		
 	})

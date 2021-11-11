@@ -1,7 +1,12 @@
 package com.codeyeji.IcanSell.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +25,9 @@ import com.codeyeji.IcanSell.data.Result;
 import com.codeyeji.IcanSell.data.Stockstat;
 import com.codeyeji.IcanSell.repository.AdminRepository;
 import com.codeyeji.IcanSell.service.AdminService;
+import com.google.gson.JsonObject;
+
+
 
 
 @RestController
@@ -191,6 +199,23 @@ public class ApiController {
 					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
 		}	
 	}
+	
+	
+	@PostMapping("/order")
+	public Result drinkOrder(@RequestBody String drinkList) {
+		if(drinkList == null) {
+			return new Result("ng");
+		} else {
+			System.out.println(drinkList);
+			return new Result("ok");
+		}		
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 }
