@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +27,6 @@ import com.codeyeji.IcanSell.data.Result;
 import com.codeyeji.IcanSell.data.Stockstat;
 import com.codeyeji.IcanSell.repository.AdminRepository;
 import com.codeyeji.IcanSell.service.AdminService;
-import com.google.gson.JsonObject;
 
 
 
@@ -202,10 +203,12 @@ public class ApiController {
 	
 	
 	@PostMapping("/order")
-	public Result drinkOrder(@RequestBody String drinkList) {
+	public Result drinkOrder(HttpServletRequest request, @RequestBody String drinkList) {
 		if(drinkList == null) {
 			return new Result("ng");
 		} else {
+			HttpSession session = request.getSession();
+			session.setAttribute("drinkList", drinkList);
 			System.out.println(drinkList);
 			return new Result("ok");
 		}		

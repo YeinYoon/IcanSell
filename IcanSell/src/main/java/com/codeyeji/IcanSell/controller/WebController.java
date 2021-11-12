@@ -1,5 +1,10 @@
 package com.codeyeji.IcanSell.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -116,7 +121,9 @@ public class WebController {
 	@RequestMapping("/order")
 	public class ClientWebOrder {
 		@GetMapping("/")
-		public String getOrder() {
+		public String getOrder(HttpSession session, Model model) {
+			String drinkList = (String)session.getAttribute("drinkList");
+			model.addAttribute("drinkList",drinkList);
 			return "client/order";
 		}
 		@GetMapping("/ty")
