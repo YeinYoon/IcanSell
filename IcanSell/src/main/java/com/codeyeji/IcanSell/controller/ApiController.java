@@ -203,7 +203,7 @@ public class ApiController {
 	
 	
 	@PostMapping("/order")
-	public Result drinkOrder(HttpServletRequest request, @RequestBody String drinkList) {
+	public Result drinkOrder(HttpServletRequest request, @RequestBody List<Map<String, Object>> drinkList){
 		if(drinkList == null) {
 			return new Result("ng");
 		} else {

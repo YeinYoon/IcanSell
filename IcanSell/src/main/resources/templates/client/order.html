@@ -7,10 +7,89 @@
 
 <body>
 	<div class="content">
-		<button id="card">카드로 결제하기</button>
-		<button id="cash">현금으로 결제하기</button>
-		<p th:text="${drinkList}"></p>
-	</div>
-</body>
+	
+		<div th:if="${not #lists.isEmpty(drinkList)}">
 
+			담은 상품
+			<table id="cartTable" border="2px">
+				<thead>
+					<th>이름</th>
+					<th>가격</th>
+					<th>개수</th>
+				</thead>
+				<tbody>
+					<tr th:each="d:${drinkList}">
+						<td th:text="${d.dName}"></td>
+						<td th:text="${d.dPrice}"></td>
+						<td th:text="${d.dCount}"></td>
+						<td style='visibility:hidden;' th:text="${d.drinkId}"></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<button id="card">카드로 결제하기</button>
+			<button id="cash">현금으로 결제하기</button>
+			
+			
+		</div>
+	
+	
+		<div th:unless="${not #lists.isEmpty(drinkList)}">
+			<h2>담은 상품이 없습니다.</h2>
+		</div>
+		
+	</div>
+
+
+
+
+
+
+
+
+<script>
+	$(()=>{
+		$("#cash").on('click', ()=> { // 결제
+			var drinkData = new Array();
+			
+			for(var i=0; i<$("#cartTable tbody tr").length; i++) { // 객체 배열 생성
+				drinkData.push({
+					dName: $("#cartTable tbody").children().eq(i).children().eq(0).text(), // 이름
+					dPrice: $("#cartTable tbody").children().eq(i).children().eq(1).text(), // 가격
+					dCount: $("#cartTable tbody").children().eq(i).children().eq(2).text() // 수량
+				})	
+			}
+			console.log(drinkData);
+			
+			var data = JSON.stringify(drinkData);
+			var url = "/api/pay";
+			
+			const csrfToken=/*[[${_csrf.token}]]*/ null;
+			const csrfHeader=/*[[${_csrf.headerName}]]*/ null;
+			
+			$.ajax({
+				url:url,
+				type:"post",
+				contentType:"application/json;charset=UTF-8",
+				data: data,
+				beforeSend:function(xhr){ xhr.setRequestHeader(csrfHeader, csrfToken);}
+			})
+			.done((result)=>{
+				if(result.result == "ok") {
+					alert("결제완료");
+					location.href="/order/ty";
+				} else {
+					alert("결제실패");
+				}
+			})
+			.fail((err)=>{
+				alert("ERR : 오류발생");
+			});
+					
+		})	
+		
+	})
+	
+</script>
+</body>
 </html>

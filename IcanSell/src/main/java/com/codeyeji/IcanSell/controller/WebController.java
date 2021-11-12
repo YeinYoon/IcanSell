@@ -122,7 +122,7 @@ public class WebController {
 	public class ClientWebOrder {
 		@GetMapping("/")
 		public String getOrder(HttpSession session, Model model) {
-			String drinkList = (String)session.getAttribute("drinkList");
+			Object drinkList = session.getAttribute("drinkList");
 			model.addAttribute("drinkList",drinkList);
 			return "client/order";
 		}
