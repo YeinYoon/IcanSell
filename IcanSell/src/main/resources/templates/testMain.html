@@ -130,7 +130,7 @@
 		});
 			
 			
-		$("#order").on('click', ()=> { // 주문하러 가기
+		$("#pay").on('click', ()=> { // 주문하러 가기
 		
 			if($("#cartTable tbody").children().length == 0) {
 				alert("담은 상품이 없습니다.");
@@ -161,17 +161,17 @@
 					data: data,
 					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
 				})
-					.done((result) => {
-						if (result.result == "ok") {
-							alert("결제화면으로 이동합니다.");
-							location.href = "/order/";
-						} else {
-							alert("데이터를 가져오지 못했습니다.");
-						}
-					})
-					.fail((err) => {
-						alert("ERR : 오류발생");
-					});
+				.done((result) => {
+					if (result.result == "ok") {
+						alert("결제화면으로 이동합니다.");
+						location.href = "/order/";
+					} else {
+						alert("데이터를 가져오지 못했습니다.");
+					}
+				})
+				.fail((err) => {
+					alert("ERR : 오류발생");
+				});
 				
 				
 				
