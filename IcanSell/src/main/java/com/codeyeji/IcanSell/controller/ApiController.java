@@ -1,6 +1,7 @@
 package com.codeyeji.IcanSell.controller;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +27,10 @@ import com.codeyeji.IcanSell.data.Admin;
 import com.codeyeji.IcanSell.data.Drink;
 import com.codeyeji.IcanSell.data.Result;
 import com.codeyeji.IcanSell.data.Stockstat;
+import com.codeyeji.IcanSell.data.Sales;
 import com.codeyeji.IcanSell.repository.AdminRepository;
 import com.codeyeji.IcanSell.service.AdminService;
+import com.codeyeji.IcanSell.service.ClientService;
 
 
 
@@ -36,6 +40,8 @@ import com.codeyeji.IcanSell.service.AdminService;
 public class ApiController {
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	ClientService clientService;
 	@Autowired
 	SecurityConfig securityConfig;
 	
@@ -215,7 +221,27 @@ public class ApiController {
 		
 	}
 	
-	
+	@PostMapping("/pay")
+	public Result drinkPay(@RequestBody List<Map<String, Object>> drinkList) {
+		if(drinkList == null) {
+			return new Result("ng");
+		} else {
+			System.out.println(drinkList +" row:"+ drinkList.size());
+			//new Sales(int drinkId, int sPay, int sCount, int sPaySum, LocalDateTime sDate)
+			
+			for(int i=0; i<drinkList.size(); i++) {
+				Sales sales = new Sales(
+						Integer.parseInt(drinkList.get(i).get("drinkId").toString()),
+						Integer.parseInt(drinkList.get(i).get("sPay").toString()),
+						Integer.parseInt(drinkList.get(i).get("sCount").toString()),
+						Integer.parseInt(drinkList.get(i).get("sPaySum").toString()),
+						LocalDateTime.now());
+				clientService.addSales(sales);
+			}
+				
+			return new Result("ok");
+		}	
+	}
 	
 	
 	

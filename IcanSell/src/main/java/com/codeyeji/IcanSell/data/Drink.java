@@ -59,7 +59,6 @@ public class Drink { // 음료 테이블
 		this.dStock = dStock;
 	}
 	
-	
 
 	public Stockstat getStatId() {
 		return statId;

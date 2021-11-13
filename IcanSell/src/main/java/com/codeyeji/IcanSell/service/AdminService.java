@@ -42,7 +42,7 @@ public class AdminService {
 		return drinkRepository.findAll();
 	}
 	
-	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록
+	public void addDrink(Drink drink) {drinkRepository.save(drink); } // 상품(음료) 등록
 	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);}
 	
 	

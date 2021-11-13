@@ -95,7 +95,7 @@
 					drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button>";
 					drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button>";
 					drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button>" + "</td>";
-					drink += "<td style='visibility:hidden;'>" + drinkIdData + "</td>" 
+					drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>" 
 					
 					drink += "</tr>";
 
@@ -130,7 +130,7 @@
 		});
 			
 			
-		$("#pay").on('click', ()=> { // 주문하러 가기
+		$("#order").on('click', ()=> { // 주문내역 및 결제 페이지로 이동
 		
 			if($("#cartTable tbody").children().length == 0) {
 				alert("담은 상품이 없습니다.");
