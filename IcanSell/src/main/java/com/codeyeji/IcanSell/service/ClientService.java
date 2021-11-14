@@ -20,6 +20,10 @@ public class ClientService {
 	public List<Drink> findDrinkAll() {return drinkRepository.findAll();}
 	
 	public void addSales(Sales sales) {salesRepository.save(sales);}
+
+	public Drink findDrinkId(int drinkId) {return drinkRepository.findById(drinkId).get();}
+	
+	public void editStock(Drink drink) {drinkRepository.save(drink);}
 	
 	
 }

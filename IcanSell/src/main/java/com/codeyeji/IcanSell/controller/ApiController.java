@@ -237,6 +237,16 @@ public class ApiController {
 						Integer.parseInt(drinkList.get(i).get("sPaySum").toString()),
 						LocalDateTime.now());
 				clientService.addSales(sales);
+				
+				Drink findDrink = clientService.findDrinkId(Integer.parseInt(drinkList.get(i).get("drinkId").toString()));
+				findDrink.setdStock(findDrink.getdStock()-Integer.parseInt(drinkList.get(i).get("sCount").toString()));
+				
+				Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)
+				if(findDrink.getdStock() == 0) { // 재고가 전부 소진이 되었나?
+					findDrink.setStatId(statId2);
+				}		
+				clientService.editStock(findDrink);
+				
 			}
 				
 			return new Result("ok");

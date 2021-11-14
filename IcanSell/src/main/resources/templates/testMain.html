@@ -10,7 +10,7 @@
    음료목록
    <div th:if="${not #lists.isEmpty(drinks)}">
    
-   <table border="2px">
+   <table id="stockTable" border="2px">
    	<thead>
    		<th>이미지</th>
    		<th>이름</th>
@@ -67,7 +67,7 @@
 		
 		$('.buttons').click(function () {
 			var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
-			var drinkIdData = $(this).attr("drinkid");
+			var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
 			var dName = $(this).attr("dName");
 			var dPrice = $(this).attr("dPrice");
 			var statId = $(this).attr("statId");
@@ -113,10 +113,17 @@
 		});
 
 		$("#cartTable tbody").on("click", ".countUp", function() {
+			var thisId = $(this).closest("tr").attr("id");
+			var stock = $("#stockTable #"+thisId).closest("tr").children().eq(3).text();
 			var count = $(this).closest("tr").children().eq(2).text();
-			count++;
-			$(this).closest("tr").children().eq(2).text(count);
-			
+	
+			if(stock == count) {
+				alert("현재 재고보다 많게 담을 수 없습니다.")
+			} else {
+				count++;
+				$(this).closest("tr").children().eq(2).text(count);
+			}
+		
 		});
 		
 		$("#cartTable tbody").on("click", ".countDown", function() {
