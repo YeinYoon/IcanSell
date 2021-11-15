@@ -43,7 +43,7 @@ public class AdminService {
 	}
 	
 	public void addDrink(Drink drink) {drinkRepository.save(drink); } // 상품(음료) 등록
-	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);}
+	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);} // 상품(음료)삭제
 	
 	
 	
