@@ -160,10 +160,13 @@
 		//상품 가격 변경
 		$('.putPrice').click(function(){
 			var priceInput = prompt("해당 상품의 새로운 가격을 입력해주세요.");
-			if(priceInput == "" || priceInput <= 0 || priceInput == Number($("#dPrice").text())) {
-				alert("공백값이나 0원 미만 또는 동일한 가격은 입력할 수 없습니다.");
-			} else {
-				
+			if(priceInput==null) {
+				alert("취소되었습니다.");
+			} else if(priceInput == "" || priceInput <= 0) {
+				alert("공백값이나 0원 미만의 가격은 입력할 수 없습니다.");
+			} else if(priceInput == $(this).closest("tr").children().eq(2).text()){
+				alert("동일한 가격은 입력할 수 없습니다.");
+			} else{
 				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
 				
 				var obj = {
@@ -208,7 +211,9 @@
 			var stockInput = prompt("해당 상품의 재고를 입력해주세요.");
 			if(stockInput == "" || stockInput < 0) {
 				alert("공백값이나 0개 미만은 입력할 수 없습니다.");
-			} else {
+			} else if(stockInput == null) {
+				alert("취소되었습니다.");
+			} else{
 				
 				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
 				

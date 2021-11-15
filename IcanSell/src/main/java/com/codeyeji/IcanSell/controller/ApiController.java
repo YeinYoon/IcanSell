@@ -172,7 +172,8 @@ public class ApiController {
 	public String putDrinkImg(
 			@RequestParam(name="drinkId") int drinkId,
 			@RequestParam(name="newdImg") MultipartFile newFiles,
-			@RequestParam(name="currentdImgSrc") String currentdImgSrc) {
+			@RequestParam(name="currentdImgSrc") String currentdImgSrc,
+			HttpServletRequest request) {
 		
 		Optional<Drink> findDrink = adminService.findDrinkId(drinkId);
 		if(findDrink.isPresent()) {
@@ -183,9 +184,10 @@ public class ApiController {
 			} else { // 업로드 된 이미지가 있을 경우
 				
 				try { // 이미지 경로 및 이름 바꾸기
+					String path =  request.getSession().getServletContext().getRealPath("\\");
 					String currnetdImgSrc = currentdImgSrc; // 기존 이미지 경로
-					String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
-					String newFilePath = baseDir + "\\" + newFiles.getOriginalFilename();
+					String baseDir = path;
+					String newFilePath = baseDir + "\\static\\drinkImages\\" + newFiles.getOriginalFilename();
 					
 					File file = new File(currnetdImgSrc);
 					file.delete();
