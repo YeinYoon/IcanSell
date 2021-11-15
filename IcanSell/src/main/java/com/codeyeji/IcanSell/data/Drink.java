@@ -2,6 +2,7 @@ package com.codeyeji.IcanSell.data;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,7 +52,10 @@ public class Drink { // 음료 테이블
 	@JoinColumn(name="statId")
 	private Stockstat statId;
 	
-	
+	//이력 안남기고 삭제할 경우 cascade = {CascadeType.REMOVE}
+//	@OneToMany(mappedBy="drink", cascade = {CascadeType.REMOVE})
+//	private List<Sales> sales; 
+		
 	public Drink() {}
 	public Drink(String dName, int dPrice, int dStock) {
 		this.dName = dName;
@@ -59,7 +63,6 @@ public class Drink { // 음료 테이블
 		this.dStock = dStock;
 	}
 	
-
 	public Stockstat getStatId() {
 		return statId;
 	}
@@ -79,7 +82,7 @@ public class Drink { // 음료 테이블
 	public void setDrinkId(int drinkId) {
 		this.drinkId = drinkId;
 	}
-
+	
 	public String getdName() {
 		return dName;
 	}

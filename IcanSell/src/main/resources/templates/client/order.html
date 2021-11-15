@@ -67,6 +67,7 @@ integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="ano
 			for(var i=0; i<$("#cartTable tbody tr").length; i++) { // 객체 배열 생성
 				drinkData.push({
 					drinkId: $("#cartTable tbody tr").eq(i).children().eq(3).text(), // 음료 고유 아이디
+					sName: $("#cartTable tbody tr").eq(i).children().eq(0).text(), // 음료 이름
 					sPay: $("#cartTable tbody tr").eq(i).children().eq(1).text(), // 가격
 					sCount: $("#cartTable tbody tr").eq(i).children().eq(2).text(), // 수량
 					sPaySum : ($("#cartTable tbody tr").eq(i).children().eq(1).text() * $("#cartTable tbody tr").eq(i).children().eq(2).text()), // 총금액

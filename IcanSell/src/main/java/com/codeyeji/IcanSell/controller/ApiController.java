@@ -227,18 +227,19 @@ public class ApiController {
 			return new Result("ng");
 		} else {
 			System.out.println(drinkList +" row:"+ drinkList.size());
-			//new Sales(int drinkId, int sPay, int sCount, int sPaySum, LocalDateTime sDate)
+			//new Sales(String sName, int sPay, int sCount, int sPaySum, LocalDateTime sDate)
 			
 			for(int i=0; i<drinkList.size(); i++) {
+				int drinkId = Integer.parseInt(drinkList.get(i).get("drinkId").toString());
 				Sales sales = new Sales(
-						Integer.parseInt(drinkList.get(i).get("drinkId").toString()),
+						drinkList.get(i).get("sName").toString(),
 						Integer.parseInt(drinkList.get(i).get("sPay").toString()),
 						Integer.parseInt(drinkList.get(i).get("sCount").toString()),
 						Integer.parseInt(drinkList.get(i).get("sPaySum").toString()),
 						LocalDateTime.now());
 				clientService.addSales(sales);
 				
-				Drink findDrink = clientService.findDrinkId(Integer.parseInt(drinkList.get(i).get("drinkId").toString()));
+				Drink findDrink = clientService.findDrinkId(drinkId);
 				findDrink.setdStock(findDrink.getdStock()-Integer.parseInt(drinkList.get(i).get("sCount").toString()));
 				
 				Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)

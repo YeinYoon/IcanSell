@@ -3,6 +3,7 @@ package com.codeyeji.IcanSell.data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="sales")
@@ -24,24 +27,34 @@ public class Sales{
 	private int sPay;
 	private LocalDateTime sDate;
 	private int sPaySum;
-	
-	
-	@ManyToOne(targetEntity=Drink.class)
-	@JoinColumn(name="drinkId")
+	private String sName;
+
+	@Transient
 	private Drink drink;
+	
+//	@ManyToOne(targetEntity=Drink.class)
+//	@JoinColumn(name="drinkId", nullable=true)
+//	private Drink drink;
 	
 	
 	public Sales() {}
-	public Sales(int drinkId, int sPay, int sCount, int sPaySum, LocalDateTime sDate) {
-		Drink drink = new Drink();
-		drink.setDrinkId(drinkId);
-		this.drink = drink;
+	public Sales(String sName, int sPay, int sCount, int sPaySum, LocalDateTime sDate) {
+//		Drink drink = new Drink();
+//		drink.setDrinkId(drinkId);
+//		this.drink = drink;
+		this.sName = sName;
 		this.sPay = sPay;
 		this.sCount = sCount;
 		this.sPaySum = sPaySum;
 		this.sDate = sDate;
 	}
 	
+	public String getsName() {
+		return sName;
+	}
+	public void setsName(String sName) {
+		this.sName = sName;
+	}
 	public int getsCount() {
 		return sCount;
 	}
@@ -65,12 +78,6 @@ public class Sales{
 	}
 	public void setsPaySum(int sPaySum) {
 		this.sPaySum = sPaySum;
-	}
-	public Drink getDrink() {
-		return drink;
-	}
-	public void setDrink(Drink drink) {
-		this.drink = drink;
 	}
 	public int getSalesId() {
 		return salesId;
