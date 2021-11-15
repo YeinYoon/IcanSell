@@ -65,13 +65,15 @@ public class ApiController {
 			@RequestParam(name="dName") String dName,
 			@RequestParam(name="dPrice") int dPrice,
 			@RequestParam(name="dStock") int dStock,
-			@RequestParam(name="dImage") MultipartFile files) {
+			@RequestParam(name="dImage") MultipartFile files,
+			HttpServletRequest request) {
 
 		Drink drink = new Drink(dName,dPrice,dStock);
-		
+		String path =  request.getSession().getServletContext().getRealPath("\\");
+		System.out.println(path);
 		try { // 이미지 경로를 DB에 셋팅
-			String baseDir = "C:\\Spring\\workspace\\team18\\IcanSell\\src\\main\\resources\\static\\drinkImages";
-			String filePath = baseDir + "\\" + files.getOriginalFilename();
+			String baseDir = path;
+			String filePath = baseDir + "\\static\\drinkImages\\" + files.getOriginalFilename();
 			files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
 			drink.setdImgSrc(filePath);
 			drink.setdImgName(files.getOriginalFilename());

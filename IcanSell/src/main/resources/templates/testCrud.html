@@ -26,7 +26,7 @@
    	<tbody>
    		<tr th:each="d: ${drinks}">
    			<td class="dImg" data-th-dImgSrc="${d.dImgSrc}" data-th-dImgName="${d.dImgName}">
-   				<img th:src="@{|/drinkImages/${d.dImgName}|}" width=30 height=30/>
+   				<img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=30 height=30/>
    			</td>
    			<td class="dName" data-th-drinkId="${d.drinkId}" th:text="${d.dName}"></td>
    			<td class="dPrice" th:text="${d.dPrice}"></td>

@@ -21,7 +21,7 @@
    	</thead>
    	<tbody>
    		<tr th:each="d: ${drinks}">
-   			<td><img th:src="@{|/drinkImages/${d.dImgName}|}" width=30 height=30/></td>
+   			<td><img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=30 height=30/></td>
    			<td th:text="${d.dName}"></td>
    			<td th:text="${d.dPrice}"></td>
    			<td th:text="${d.dStock}"></td>
