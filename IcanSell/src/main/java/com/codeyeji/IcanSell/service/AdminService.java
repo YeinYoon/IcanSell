@@ -28,6 +28,8 @@ public class AdminService {
 		return findAdmin;
 	}
 	
+	public List<Admin> findAdminAll() {return adminRepository.findByRole("admin");}
+	
 	public Drink findDrink(String dName) { // 이름을 기반으로 해당하는 음료상품 찾기
 		Drink findDrink = drinkRepository.findBydName(dName);
 		return findDrink;

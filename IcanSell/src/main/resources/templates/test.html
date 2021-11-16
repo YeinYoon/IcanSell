@@ -9,6 +9,24 @@
 </head>
 <body>
 
+관리자 목록
+<table border="2px">
+	<thead>
+		<th>아이디</th>
+		<th>이름</th>
+		<th>이름수정</th>
+		<th>삭제</th>
+	</thead>
+	<tbody>
+		<tr th:each="a: ${adminList}">
+			<td th:text="${a.adminId}"></td>
+			<td th:text="${a.aName}"></td>
+			<td><button class="putAdminName">이름수정</button></td>
+			<td><button class="deleteAdmin">삭제</button></td>
+		</tr>
+	</tbody>
+</table>
+
 관리자 등록 구현<br>
 	<input id="aName" type="text" placeholder="관리자 이름">
 	<input id="aId" type="text" placeholder="관리자 ID">
@@ -24,6 +42,10 @@
 	<button id="add" type="submit">상품 등록</button>
 </form>
 
+로그아웃<br>
+<form name="logoutForm" th:action="@{/logout}" method="post">
+	<input type="submit" value="로그아웃하기"/>
+</form>
 	
 <script th:inline="javascript">
 	$(()=>{
@@ -54,6 +76,7 @@
 			.done((result)=>{
 				if(result.result == "ok") {
 					alert("관리자 등록 완료");
+					location.href="/admin/test"
 				} else {
 					alert("등록실패! 이미 있는 관리자 입니다.");
 				}
@@ -64,6 +87,90 @@
 			
 		});
 			
+		// 관리자 이름 수정
+		$('.putAdminName').click(function () {
+			var inputName = prompt("관리자의 새로운 이름을 입력해 주세요.");
+			if (inputName == "" || inputName == $(this).closest("tr").children().eq(1).text()) {
+				alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
+			} else {
+				var adminId = $(this).closest("tr").children().eq(0).text();
+
+				var obj = {
+					adminId: adminId,
+					newadminName: inputName
+				}
+
+				var url = "/api/putAdminName";
+				var data = JSON.stringify(obj);
+
+				const csrfToken =/*[[${_csrf.token}]]*/ null;
+				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+				$.ajax({
+					url: url,
+					type: "put",
+					contentType: 'application/json',
+					data: data,
+					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+
+				})
+					.done((result) => {
+						if (result.result == "ok") {
+							alert("이름 수정완료");
+							location.href="/admin/test";
+						} else {
+							alert("존재하지 않는 관리자 입니다.");
+						}
+					})
+					.fail((err) => {
+						alert("ERR : 수정 실패");
+					})
+			}
+
+		});
+	
+		// 관리자 삭제
+		$('.deleteAdmin').click(function () {
+			var deleteAdmin = confirm("해당 관리자를 삭제하시겠습니까?");
+			if(deleteAdmin == false) {
+				alert("취소되었습니다.");
+			} else {
+				var adminId = $(this).closest("tr").children().eq(0).text();
+			
+				var obj={
+					adminId : adminId
+				}
+			
+				var url = "/api/deleteAdmin";
+				var data = JSON.stringify(obj);
+			
+				const csrfToken=/*[[${_csrf.token}]]*/ null;
+				const csrfHeader=/*[[${_csrf.headerName}]]*/ null;
+		
+				$.ajax({
+					url:url,
+					type:"delete",
+					contentType:'application/json',
+					data:data,
+					beforeSend:function(xhr){ xhr.setRequestHeader(csrfHeader, csrfToken);}				
+				})
+				.done((result)=> {
+					if(result.result == "ok") {
+						alert("관리자 삭제 완료");
+						location.href="/admin/test";
+					} else {
+						alert("존재하지 않는 관리자 입니다.");
+					}
+				})
+				.fail((err)=> {
+					alert("ERR : 삭제 실패");
+				})
+			}
+		
+		});
+		
+		
+		
 		
 	});
 

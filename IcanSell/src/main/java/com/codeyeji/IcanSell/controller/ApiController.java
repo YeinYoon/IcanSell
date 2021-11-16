@@ -259,6 +259,29 @@ public class ApiController {
 	}
 	
 	
+	@PutMapping("/putAdminName")
+	public Result putAdminName(@RequestBody Admin admin) {
+		Admin findAdmin = adminService.findAdminId(admin.getAdminId()).get();
+		if(findAdmin == null) {
+			return new Result("ng");
+		} else {
+			findAdmin.setaName(admin.getNewadminName());
+			adminService.addAdmin(findAdmin);
+			return new Result("ok");
+		}
+		
+	}
+	
+	@DeleteMapping("/deleteAdmin")
+	public Result deleteAdmin(@RequestBody Admin admin) {
+		Admin findAdmin = adminService.findAdminId(admin.getAdminId()).get();
+		if(findAdmin==null) {
+			return new Result("ng");
+		} else {
+			adminService.deleteAdmin(admin.getAdminId());
+			return new Result("ok");
+		}
+	}
 	
 	
 	

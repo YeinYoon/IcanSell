@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.codeyeji.IcanSell.data.Drink;
 
 @Entity
@@ -24,6 +26,11 @@ public class Admin { // 관리자(판매자) 테이블
 	
 	@Column(nullable=false,length=100)
 	private String role="admin";
+	
+	@Transient
+	private String newadminName;
+	@Transient 
+	private int newaPw;
 	
 	
 	public String getRole() {
@@ -56,6 +63,22 @@ public class Admin { // 관리자(판매자) 테이블
 
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
+	}
+	
+	public String getNewadminName() {
+		return newadminName;
+	}
+
+	public void setNewadminName(String newadminName) {
+		this.newadminName = newadminName;
+	}
+
+	public int getNewaPw() {
+		return newaPw;
+	}
+
+	public void setNewaPw(int newaPw) {
+		this.newaPw = newaPw;
 	}
 
 }

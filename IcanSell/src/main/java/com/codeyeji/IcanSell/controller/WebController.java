@@ -61,7 +61,8 @@ public class WebController {
 		}
 	// 테스트용(코드 테스트용)	
 		@GetMapping("/test")
-		public String getAdminTest() {
+		public String getAdminTest(Model model) {
+			model.addAttribute("adminList",adminService.findAdminAll());
 			return "test";
 		}
 		
