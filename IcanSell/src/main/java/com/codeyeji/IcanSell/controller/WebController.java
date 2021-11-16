@@ -46,19 +46,24 @@ public class WebController {
 		}
 		
 		@GetMapping("/edit")
-		public String getAdminEdit() {
+		public String getAdminEdit(Model model) {
+			model.addAttribute("drinks", adminService.findDrinkAll());
 			return "admin/edit";
 		}
 		
 		@GetMapping("/add")
-		public String getAdminAdd() {
+		public String getAdminAdd(Model model) {
+			model.addAttribute("adminList",adminService.findAdminAll());
 			return "admin/add";
 		}
 		
 		@GetMapping("/member")
-		public String getAdminMember() {
+		public String getAdminMember(Model model) {
+			model.addAttribute("adminList",adminService.findAdminAll());
 			return "admin/member";
 		}
+		
+		
 	// 테스트용(코드 테스트용)	
 		@GetMapping("/test")
 		public String getAdminTest(Model model) {
@@ -73,7 +78,9 @@ public class WebController {
 		}
 		
 	}
-	// 테스트용 접근금지 html
+	
+	
+	// 접근권한에 따른 접근금지 html
 	@GetMapping("/denied")
 	public String denied() {
 	 return "denied";
@@ -100,13 +107,9 @@ public class WebController {
 	public class ClientWeb {
 		
 		@GetMapping("/")
-		public String getMain() {
+		public String getMain(Model model) {
+			model.addAttribute("drinks", clientService.findDrinkAll());
 			return "client/main";
-		}
-		
-		@GetMapping("/cart")
-		public String getMainKart() {
-			return "client/cart";
 		}
 		
 		// 테스트용(코드 테스트용)	
@@ -117,6 +120,7 @@ public class WebController {
 		}
 		
 	}
+	
 	// 소비자 웹 주문 웹
 	@Controller
 	@RequestMapping("/order")

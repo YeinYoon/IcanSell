@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Admin Index</title>
@@ -7,15 +7,17 @@
 <body>
  <nav class="nav">
         <div class="as">
-        <a href="">상품 등록</a>
-        <a href="">상품 수정</a>
-        <a href="">관리자 등록</a>
+        <a href="/admin/add">상품 등록</a>
+        <a href="/admin/edit">상품 수정</a>
+        <a href="/admin/member">관리자 등록</a>
     </div>
     </nav>
 
     <div class="login">
-        <p>admin1님</p>
-        <button type="button" id="logout">logout</button>
+        <b style="font-size: 25px;">[ Admin ]</b> <h2 sec:authentication="name"></h2>
+		<form name="logoutForm" th:action="@{/logout}" method="post">
+			<input type="submit" value="로그아웃" />
+		</form>
     </div>
 
 
@@ -51,11 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="${:}">
-                    <td th:text="${}"></td>
-                    <td th:text="${}"></td>
-                    <td th:text="${}"></td>
-                </tr>
+                
             </tbody>
         </table>
         </div>

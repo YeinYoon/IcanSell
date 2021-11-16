@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-th:replace="~{AdminLayout::AdminLayout(~{::title}, ~{}, ~{::#content})}">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>add</title>
+	<title>상품 등록 페이지</title>
+	<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>	
 </head>
 
 <body>
 <div id="content">
+
+	<form th:action="@{/api/addDrink}" method="POST" enctype="multipart/form-data">
+		<input name="dName" type="text" placeholder="음료 이름">
+		<input name="dPrice" type="text" placeholder="가격">
+		<input name="dStock" type="number" placeholder="수량">
+		<input name="dImage" type="file">
+		<button id="add" type="submit">상품 등록</button>
+	</form>
+
+
 </div>
-
-	<div class="content">
-		<h3>상품 등록</h3>
-		<label>상품명 <input type="text"></label><br>
-		<label>가격 <input type="number"></label><br>
-		<label>수량 <input type="number"></label><br>
-		<button type="button" id="submit">등록</button>
-		<button type="button" id="cancel">취소</button>
-	</div>
 </body>
-
 </html>

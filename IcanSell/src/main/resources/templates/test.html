@@ -90,8 +90,10 @@
 		// 관리자 이름 수정
 		$('.putAdminName').click(function () {
 			var inputName = prompt("관리자의 새로운 이름을 입력해 주세요.");
-			if (inputName == "" || inputName == $(this).closest("tr").children().eq(1).text()) {
-				alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
+			if (inputName == "") {
+				alert("공백값은 입력할 수 없습니다.");
+			} else if(inputName == $(this).closest("tr").children().eq(1).text()) {
+				alert("동일한 이름은 입력할 수 없습니다.");
 			} else {
 				var adminId = $(this).closest("tr").children().eq(0).text();
 

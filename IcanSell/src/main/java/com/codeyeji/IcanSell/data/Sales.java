@@ -32,15 +32,8 @@ public class Sales{
 	@Transient
 	private Drink drink;
 	
-//	@ManyToOne(targetEntity=Drink.class)
-//	@JoinColumn(name="drinkId", nullable=true)
-//	private Drink drink;
-	
 	public Sales() {}
 	public Sales(String sName, int sPay, int sCount, int sPaySum, LocalDateTime sDate) {
-//		Drink drink = new Drink();
-//		drink.setDrinkId(drinkId);
-//		this.drink = drink;
 		this.sName = sName;
 		this.sPay = sPay;
 		this.sCount = sCount;

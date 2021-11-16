@@ -51,10 +51,6 @@ public class Drink { // 음료 테이블
 	@ManyToOne(targetEntity=Stockstat.class)
 	@JoinColumn(name="statId")
 	private Stockstat statId;
-	
-	//이력 안남기고 삭제할 경우 cascade = {CascadeType.REMOVE}
-//	@OneToMany(mappedBy="drink", cascade = {CascadeType.REMOVE})
-//	private List<Sales> sales; 
 		
 	public Drink() {}
 	public Drink(String dName, int dPrice, int dStock) {
