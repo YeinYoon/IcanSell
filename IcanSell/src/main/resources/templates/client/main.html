@@ -1,190 +1,206 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"
 		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <title>메인페이지</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+	<title>메인페이지</title>
 </head>
+
+
 <body>
-	음료목록
-	<div th:if="${not #lists.isEmpty(drinks)}">
+	
+	<div class=container>
+	<h1 class="text-center display-1 fw-bold mt-1">음료 목록</h1>
+		<div th:if="${not #lists.isEmpty(drinks)}">
+			<table id="stockTable table" class="table text-center mt-5 fs-2">
+				<thead class="table-light">
+					<tr>
+						<th class="col-4">이미지</th>
+						<th>이름</th>
+						<th>가격</th>
+						<th>재고</th>
+						<th>상태</th>
+						<th>담기</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="d: ${drinks}">
+						<td class="align-middle col-4"><img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=300px; height=300px; /></td>
+						<td class="align-middle" th:text="${d.dName}"></td>
+						<td class="align-middle" th:text="${d.dPrice}"></td>
+						<td class="align-middle" th:text="${d.dStock}"></td>
+						<td class="align-middle" th:text="${d.statId.statName}"></td>
+						<td class="align-middle"><button type="button" class="buttons btn btn-primary btn-lg" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
+								data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}"
+								data-th-statId="${d.statId.statId}">담기</button></td>
+					</tr>
+				</tbody>
+			</table>
 
-		<table id="stockTable" border="2px">
-			<thead>
-				<th>이미지</th>
-				<th>이름</th>
-				<th>가격</th>
-				<th>재고</th>
-				<th>상태</th>
-				<th>담기</th>
-			</thead>
-			<tbody>
-				<tr th:each="d: ${drinks}">
-					<td><img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=30 height=30 /></td>
-					<td th:text="${d.dName}"></td>
-					<td th:text="${d.dPrice}"></td>
-					<td th:text="${d.dStock}"></td>
-					<td th:text="${d.statId.statName}"></td>
-					<td><button class="buttons" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
-							data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}"
-							data-th-statId="${d.statId.statId}">담기</button></td>
-				</tr>
-			</tbody>
-		</table>
+			<h4 class="text-center display-2 fw-bold mt-5">장바구니</h4>
+			<table id="cartTable" class="table text-center mt-5">
+				<thead class="table-light">
+					<tr>
+						<th>이름</th>
+						<th>가격</th>
+						<th>개수</th>
+						<th>증가</th>
+						<th>감소</th>
+						<th>삭제</th>
+					<tr>
+						<th style="display:none;"></th>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
 
-
-		장바구니
-		<table id="cartTable" border="2px">
-			<thead>
-				<th>이름</th>
-				<th>가격</th>
-				<th>개수</th>
-				<th>증가</th>
-				<th>감소</th>
-				<th>삭제</th>
-				<th style="display:none;"></th>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-		<button id="order">결제하러 가기</button>
-
+			<div class="d-grid gap-2 col-6 mx-auto" id="order">
+				<button class="btn btn-primary mt-5" type="button">결제하러 가기</button>
+			</div>
+		</div>
 	</div>
-
+	
 	<div th:unless="${not #lists.isEmpty(drinks)}">
 		<h2>현재 판매중인 음료가 없습니다. 새로운 상품이 들어올 때까지 기다려주세요!</h2>
 	</div>
-	
-	
-	
-	
-	
-	
-<script th:inline="javascript">
-	$(()=>{
-		
-		$('.buttons').click(function () {
-			var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
-			var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
-			var dName = $(this).attr("dName");
-			var dPrice = $(this).attr("dPrice");
-			var statId = $(this).attr("statId");
-			var isExist = false;
 
-			if (statId == 2) {
-				alert("매진된 상품입니다.");
-			} else {
 
-				for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
-					var findId = 0;
-					findId = $("#cartTable tbody").children().eq(i).attr("id");
-					if (drinkId == findId) {
-						alert("이미 담긴 상품입니다.");
-						isExist = true;
+
+
+
+
+	<script th:inline="javascript">
+		$(() => {
+
+			$('.buttons').click(function () {
+				var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
+				var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
+				var dName = $(this).attr("dName");
+				var dPrice = $(this).attr("dPrice");
+				var statId = $(this).attr("statId");
+				var isExist = false;
+
+				if (statId == 2) {
+					alert("매진된 상품입니다.");
+				} else {
+
+					for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
+						var findId = 0;
+						findId = $("#cartTable tbody").children().eq(i).attr("id");
+						if (drinkId == findId) {
+							alert("이미 담긴 상품입니다.");
+							isExist = true;
+						}
 					}
+
+					if (isExist == false) {
+						var drink = "<tr id='" + drinkId + "'>";
+
+						drink += "<td>" + dName + "</td>";
+						drink += "<td>" + dPrice + "</td>";
+						drink += "<td>" + 1 + "</td>";
+						drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button>";
+						drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button>";
+						drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button>" + "</td>";
+						drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
+
+						drink += "</tr>";
+
+						$("#cartTable tbody").append(drink);
+					}
+
+
 				}
 
-				if (isExist == false) {
-					var drink = "<tr id='" + drinkId + "'>";
+			});
 
-					drink += "<td>" + dName + "</td>";
-					drink += "<td>" + dPrice + "</td>";
-					drink += "<td>" + 1 + "</td>";
-					drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button>";
-					drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button>";
-					drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button>" + "</td>";
-					drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>" 
-					
-					drink += "</tr>";
 
-					$("#cartTable tbody").append(drink);
+			$("#cartTable tbody").on("click", ".delete", function () {
+				$(this).closest("tr").remove();
+			});
+
+			$("#cartTable tbody").on("click", ".countUp", function () {
+				var thisId = $(this).closest("tr").attr("id");
+				var stock = $("#stockTable #" + thisId).closest("tr").children().eq(3).text();
+				var count = $(this).closest("tr").children().eq(2).text();
+
+				if (stock == count) {
+					alert("현재 재고보다 많게 담을 수 없습니다.")
+				} else {
+					count++;
+					$(this).closest("tr").children().eq(2).text(count);
 				}
 
+			});
 
-			}
+			$("#cartTable tbody").on("click", ".countDown", function () {
+				var count = $(this).closest("tr").children().eq(2).text();
+				if (count == 1) {
+					alert("담는 상품의 최소 개수는 1개부터 입니다.")
+				} else {
+					count--;
+					$(this).closest("tr").children().eq(2).text(count);
+				}
+			});
 
-		});	
-		
-		
-		$("#cartTable tbody").on("click", ".delete", function() {
-			$(this).closest("tr").remove();
-		});
 
-		$("#cartTable tbody").on("click", ".countUp", function() {
-			var thisId = $(this).closest("tr").attr("id");
-			var stock = $("#stockTable #"+thisId).closest("tr").children().eq(3).text();
-			var count = $(this).closest("tr").children().eq(2).text();
-	
-			if(stock == count) {
-				alert("현재 재고보다 많게 담을 수 없습니다.")
-			} else {
-				count++;
-				$(this).closest("tr").children().eq(2).text(count);
-			}
-		
-		});
-		
-		$("#cartTable tbody").on("click", ".countDown", function() {
-			var count = $(this).closest("tr").children().eq(2).text();
-			if(count==1) {
-				alert("담는 상품의 최소 개수는 1개부터 입니다.")
-			} else {
-				count--;
-				$(this).closest("tr").children().eq(2).text(count);
-			}
-		});
-			
-			
-		$("#order").on('click', ()=> { // 주문내역 및 결제 페이지로 이동
-		
-			if($("#cartTable tbody").children().length == 0) {
-				alert("담은 상품이 없습니다.");
-			} else {
+			$("#order").on('click', () => { // 주문내역 및 결제 페이지로 이동
 
-				var drinkData = new Array();
+				if ($("#cartTable tbody").children().length == 0) {
+					alert("담은 상품이 없습니다.");
+				} else {
 
-				for (var i = 0; i < $("#cartTable tbody tr").length; i++) { // 객체 배열 생성
-					drinkData.push({
-						dName: $("#cartTable tbody tr").eq(i).children().eq(0).text(), // 이름
-						dPrice: $("#cartTable tbody tr").eq(i).children().eq(1).text(), // 가격
-						dCount: $("#cartTable tbody tr").eq(i).children().eq(2).text(), // 수량
-						drinkId: $("#cartTable tbody tr").eq(i).children().eq(6).text() // 음료번호
+					var drinkData = new Array();
+
+					for (var i = 0; i < $("#cartTable tbody tr").length; i++) { // 객체 배열 생성
+						drinkData.push({
+							dName: $("#cartTable tbody tr").eq(i).children().eq(0).text(), // 이름
+							dPrice: $("#cartTable tbody tr").eq(i).children().eq(1).text(), // 가격
+							dCount: $("#cartTable tbody tr").eq(i).children().eq(2).text(), // 수량
+							drinkId: $("#cartTable tbody tr").eq(i).children().eq(6).text() // 음료번호
+						})
+					}
+					console.log(drinkData);
+					var data = JSON.stringify(drinkData);
+					var url = "/api/order";
+
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+					$.ajax({
+						url: url,
+						type: "post",
+						contentType: "application/json;charset=UTF-8",
+						traditional: true,
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
 					})
+						.done((result) => {
+							if (result.result == "ok") {
+								alert("결제화면으로 이동합니다.");
+								location.href = "/order/";
+							} else {
+								alert("데이터를 가져오지 못했습니다.");
+							}
+						})
+						.fail((err) => {
+							alert("ERR : 오류발생");
+						});
+
 				}
-				console.log(drinkData);
-				var data = JSON.stringify(drinkData);
-				var url = "/api/order";
 
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+			})
 
-				$.ajax({
-					url: url,
-					type: "post",
-					contentType: "application/json;charset=UTF-8",
-					traditional: true,
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
-				.done((result) => {
-					if (result.result == "ok") {
-						alert("결제화면으로 이동합니다.");
-						location.href = "/order/";
-					} else {
-						alert("데이터를 가져오지 못했습니다.");
-					}
-				})
-				.fail((err) => {
-					alert("ERR : 오류발생");
-				});
-				
-			}
-			
-		})	
-			
-	})
-	
-</script>
+		})
+
+	</script>
 </body>
+
 </html>
