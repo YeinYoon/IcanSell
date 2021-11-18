@@ -42,15 +42,15 @@
 	<div class=container>
 	<h1 class="text-center display-2 fw-bold mt-5">음료 목록</h1>
 		<div th:if="${not #lists.isEmpty(drinks)}">
-			<table id="stockTable table" class="table text-center mt-5 fs-2">
+			<table id="stockTable" class="table text-center mt-5 fs-2">
 				<thead class="table-light">
 					<tr>
 						<th class="col-4">이미지</th>
 						<th>이름</th>
 						<th>가격</th>
 						<th>재고</th>
-						<th>상태</th>
 						<th>담기</th>
+						<th style="display:none;">상태</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,12 +59,12 @@
 						<td class="align-middle" th:text="${d.dName}"></td>
 						<td class="align-middle" th:text="${d.dPrice}"></td>
 						<td class="align-middle" th:text="${d.dStock}"></td>
-						<td class="align-middle" th:text="${d.statId.statName}"></td>
 						<td class="align-middle">
 						<button type="button" class="buttons btn btn-primary btn-lg" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
 								data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}"
 								data-th-statId="${d.statId.statId}">담기</button>
 						</td>
+						<td class="align-middle" th:text="${d.statId.statName}" style='visibility:hidden;position:absolute;'></td>
 					</tr>
 				</tbody>
 			</table>
@@ -82,9 +82,6 @@
 					<tr>
 				</thead>
 				<tbody>
-				<tr>
-				<td style="display:none;"></td>
-				</tr>
 				</tbody>
 			</table>
 
@@ -136,9 +133,9 @@
 				drink += "<td>" + dName + "</td>";
 				drink += "<td>" + dPrice + "</td>";
 				drink += "<td>" + 1 + "</td>";
-				drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button></td>";
-				drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button></td>";
-				drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button></td>";
+				drink += "<td>" + "<button type='button' class='countUp btn btn-primary' data-drinkId='" + drinkId + "'>" + "+1</button></td>";
+				drink += "<td>" + "<button type='button' class='countDown btn btn-primary''data-drinkId='" + drinkId + "'>" + "-1</button></td>";
+				drink += "<td>" + "<button type='button' class='delete btn btn-primary' data-drinkId='" + drinkId + "'>" + "삭제</button></td>";
 				drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
 
 				drink += "</tr>";
@@ -153,6 +150,33 @@
 		$("#cartTable tbody").on("click", ".delete", function() {
 			$(this).closest("tr").remove();
 		});
+		
+		$("#cartTable tbody").on("click", ".countUp", function () {
+			var thisId = $(this).closest("tr").attr("id");
+			var stock = $("#stockTable #" + thisId).closest("tr").children().eq(3).text();
+			var count = $(this).closest("tr").children().eq(2).text();
+
+			if (stock == count) {
+				alert("현재 재고보다 많게 담을 수 없습니다.")
+			} else {
+				count++;
+				$(this).closest("tr").children().eq(2).text(count);
+			}
+
+		});
+
+		$("#cartTable tbody").on("click", ".countDown", function () {
+			var count = $(this).closest("tr").children().eq(2).text();
+			if (count == 1) {
+				alert("담는 상품의 최소 개수는 1개부터 입니다.")
+			} else {
+				count--;
+				$(this).closest("tr").children().eq(2).text(count);
+			}
+		});
+		
+		
+		
 
 			$("#order").on('click', () => { // 주문내역 및 결제 페이지로 이동
 
