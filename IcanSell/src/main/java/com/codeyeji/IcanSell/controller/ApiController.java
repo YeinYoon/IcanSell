@@ -199,12 +199,12 @@ public class ApiController {
 					e.printStackTrace();
 				}
 				return "<h2>상품 이미지 수정이 완료되었습니다. </h2>"
-				+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+				+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/edit\" />";
 			}
 			
 		} else { // 업로드 된 이미지가 있으나 알 수 없는 오류일 경우
 			return "<h2>이미지 수정을 실패하였습니다.</h2>"
-					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/add\" />";
 		}	
 	}
 	

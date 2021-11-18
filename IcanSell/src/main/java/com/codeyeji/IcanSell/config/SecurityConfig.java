@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
-		System.out.println(passwordEncoder().encode("123"));
+		System.out.println(passwordEncoder().encode("123")); //sysadmin 비밀번호 발급용
 	}
 	
 	@Override

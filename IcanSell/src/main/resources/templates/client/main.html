@@ -97,86 +97,62 @@
 	<div th:unless="${not #lists.isEmpty(drinks)}">
 		<h2>현재 판매중인 음료가 없습니다. 새로운 상품이 들어올 때까지 기다려주세요!</h2>
 	</div>
+	
+	
+	
+	
+	
+	
+<script th:inline="javascript">
+	$(()=>{
+		
+		for(var i = 0; i < $("#stockTable tbody").children().length; i++) { // 매진된 상품 검사기
+			var statId = $("#stockTable .buttons").eq(i).attr("statId");
+			if (statId == 2) {
+				$("#stockTable .buttons").eq(i).prop("disabled", true);
+			}
+		}
+				
+		$('.buttons').click(function () {
+			var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
+			var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
+			var dName = $(this).attr("dName");
+			var dPrice = $(this).attr("dPrice");
+			var statId = $(this).attr("statId");
+			var isExist = false;
 
-
-
-
-
-
-	<script th:inline="javascript">
-		$(() => {
-
-			$('.buttons').click(function () {
-				var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
-				var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
-				var dName = $(this).attr("dName");
-				var dPrice = $(this).attr("dPrice");
-				var statId = $(this).attr("statId");
-				var isExist = false;
-
-				if (statId == 2) {
-					alert("매진된 상품입니다.");
-				} else {
-
-					for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
-						var findId = 0;
-						findId = $("#cartTable tbody").children().eq(i).attr("id");
-						if (drinkId == findId) {
-							alert("이미 담긴 상품입니다.");
-							isExist = true;
-						}
-					}
-
-					if (isExist == false) {
-						var drink = "<tr id='" + drinkId + "'>";
-
-						drink += "<td>" + dName + "</td>";
-						drink += "<td>" + dPrice + "</td>";
-						drink += "<td>" + 1 + "</td>";
-						drink += "<td>" + "<button type='button' class='countUp btn btn-primary''data-drinkId='" + drinkId + "'>" + "+</button>";
-						drink += "<td>" + "<button type='button' class='countDown btn btn-primary''data-drinkId='" + drinkId + "'>" + "-</button>";
-						drink += "<td>" + "<button  type='button' class='delete btn btn-primary' data-drinkId='" + drinkId + "'>" + "x</button>" + "</td>";
-						drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
-
-						drink += "</tr>";
-
-						$("#cartTable tbody").append(drink);
-					}
-
-
+			for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
+				var findId = 0;
+				findId = $("#cartTable tbody").children().eq(i).attr("id");
+				if (drinkId == findId) {
+					alert("이미 담긴 상품입니다.");
+					isExist = true;
 				}
+			}
 
-			});
+			if (isExist == false) {
+				var drink = "<tr id='" + drinkId + "'>";
+
+				drink += "<td>" + dName + "</td>";
+				drink += "<td>" + dPrice + "</td>";
+				drink += "<td>" + 1 + "</td>";
+				drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button></td>";
+				drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button></td>";
+				drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button></td>";
+				drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
+
+				drink += "</tr>";
+
+				$("#cartTable tbody").append(drink);
+			}
 
 
-			$("#cartTable tbody").on("click", ".delete", function () {
-				$(this).closest("tr").remove();
-			});
-
-			$("#cartTable tbody").on("click", ".countUp", function () {
-				var thisId = $(this).closest("tr").attr("id");
-				var stock = $("#stockTable #" + thisId).closest("tr").children().eq(3).text();
-				var count = $(this).closest("tr").children().eq(2).text();
-
-				if (stock == count) {
-					alert("현재 재고보다 많게 담을 수 없습니다.")
-				} else {
-					count++;
-					$(this).closest("tr").children().eq(2).text(count);
-				}
-
-			});
-
-			$("#cartTable tbody").on("click", ".countDown", function () {
-				var count = $(this).closest("tr").children().eq(2).text();
-				if (count == 1) {
-					alert("담는 상품의 최소 개수는 1개부터 입니다.")
-				} else {
-					count--;
-					$(this).closest("tr").children().eq(2).text(count);
-				}
-			});
-
+		});	
+		
+		
+		$("#cartTable tbody").on("click", ".delete", function() {
+			$(this).closest("tr").remove();
+		});
 
 			$("#order").on('click', () => { // 주문내역 및 결제 페이지로 이동
 
