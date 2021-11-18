@@ -41,7 +41,8 @@ public class WebController {
 	public class AdminWeb {
 
 		@GetMapping("/")
-		public String getAdminIndex() {
+		public String getAdminIndex(Model model) {
+			model.addAttribute("salesList", adminService.findSalesAll());
 			return "admin/admin";
 		}
 		
