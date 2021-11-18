@@ -16,8 +16,31 @@
 
 <body>
 	
+	  <!--header-->
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/static/banner/fanta.PNG" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/banner/coke.PNG" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/banner/soda.PNG" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+	
 	<div class=container>
-	<h1 class="text-center display-1 fw-bold mt-1">음료 목록</h1>
+	<h1 class="text-center display-2 fw-bold mt-5">음료 목록</h1>
 		<div th:if="${not #lists.isEmpty(drinks)}">
 			<table id="stockTable table" class="table text-center mt-5 fs-2">
 				<thead class="table-light">
@@ -37,15 +60,17 @@
 						<td class="align-middle" th:text="${d.dPrice}"></td>
 						<td class="align-middle" th:text="${d.dStock}"></td>
 						<td class="align-middle" th:text="${d.statId.statName}"></td>
-						<td class="align-middle"><button type="button" class="buttons btn btn-primary btn-lg" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
+						<td class="align-middle">
+						<button type="button" class="buttons btn btn-primary btn-lg" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
 								data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}"
-								data-th-statId="${d.statId.statId}">담기</button></td>
+								data-th-statId="${d.statId.statId}">담기</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 
 			<h4 class="text-center display-2 fw-bold mt-5">장바구니</h4>
-			<table id="cartTable" class="table text-center mt-5">
+			<table id="cartTable" class="table text-center mt-5 fs-2">
 				<thead class="table-light">
 					<tr>
 						<th>이름</th>
@@ -55,9 +80,11 @@
 						<th>감소</th>
 						<th>삭제</th>
 					<tr>
-						<th style="display:none;"></th>
 				</thead>
 				<tbody>
+				<tr>
+				<td style="display:none;"></td>
+				</tr>
 				</tbody>
 			</table>
 
@@ -106,9 +133,9 @@
 						drink += "<td>" + dName + "</td>";
 						drink += "<td>" + dPrice + "</td>";
 						drink += "<td>" + 1 + "</td>";
-						drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button>";
-						drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button>";
-						drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button>" + "</td>";
+						drink += "<td>" + "<button type='button' class='countUp btn btn-primary''data-drinkId='" + drinkId + "'>" + "+</button>";
+						drink += "<td>" + "<button type='button' class='countDown btn btn-primary''data-drinkId='" + drinkId + "'>" + "-</button>";
+						drink += "<td>" + "<button  type='button' class='delete btn btn-primary' data-drinkId='" + drinkId + "'>" + "x</button>" + "</td>";
 						drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
 
 						drink += "</tr>";
