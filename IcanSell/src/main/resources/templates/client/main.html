@@ -16,8 +16,8 @@
 				<th>이름</th>
 				<th>가격</th>
 				<th>재고</th>
-				<th>상태</th>
 				<th>담기</th>
+				<th style="display:none;">상태</th>
 			</thead>
 			<tbody>
 				<tr th:each="d: ${drinks}">
@@ -25,10 +25,10 @@
 					<td th:text="${d.dName}"></td>
 					<td th:text="${d.dPrice}"></td>
 					<td th:text="${d.dStock}"></td>
-					<td th:text="${d.statId.statName}"></td>
 					<td><button class="buttons" th:id="'cartIn'+${d.drinkId}" data-th-drinkId="${d.drinkId}"
 							data-th-dName="${d.dName}" data-th-dPrice="${d.dPrice}"
 							data-th-statId="${d.statId.statId}">담기</button></td>
+					<td th:text="${d.statId.statName}" style="visibility:hidden;position:absolute;"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -64,6 +64,13 @@
 <script th:inline="javascript">
 	$(()=>{
 		
+		for(var i = 0; i < $("#stockTable tbody").children().length; i++) { // 매진된 상품 검사기
+			var statId = $("#stockTable .buttons").eq(i).attr("statId");
+			if (statId == 2) {
+				$("#stockTable .buttons").eq(i).prop("disabled", true);
+			}
+		}
+				
 		$('.buttons').click(function () {
 			var drinkId = $(this).attr("id"); // 태그의 아이디 cartIn~
 			var drinkIdData = $(this).attr("drinkid"); // 실제 음료 고유 아이디
@@ -72,37 +79,31 @@
 			var statId = $(this).attr("statId");
 			var isExist = false;
 
-			if (statId == 2) {
-				alert("매진된 상품입니다.");
-			} else {
-
-				for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
-					var findId = 0;
-					findId = $("#cartTable tbody").children().eq(i).attr("id");
-					if (drinkId == findId) {
-						alert("이미 담긴 상품입니다.");
-						isExist = true;
-					}
+			for (var i = 0; i < $("#cartTable tbody").children().length; i++) { // 중복된 상품 검사기
+				var findId = 0;
+				findId = $("#cartTable tbody").children().eq(i).attr("id");
+				if (drinkId == findId) {
+					alert("이미 담긴 상품입니다.");
+					isExist = true;
 				}
-
-				if (isExist == false) {
-					var drink = "<tr id='" + drinkId + "'>";
-
-					drink += "<td>" + dName + "</td>";
-					drink += "<td>" + dPrice + "</td>";
-					drink += "<td>" + 1 + "</td>";
-					drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button>";
-					drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button>";
-					drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button>" + "</td>";
-					drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>" 
-					
-					drink += "</tr>";
-
-					$("#cartTable tbody").append(drink);
-				}
-
-
 			}
+
+			if (isExist == false) {
+				var drink = "<tr id='" + drinkId + "'>";
+
+				drink += "<td>" + dName + "</td>";
+				drink += "<td>" + dPrice + "</td>";
+				drink += "<td>" + 1 + "</td>";
+				drink += "<td>" + "<button class='countUp'data-drinkId='" + drinkId + "'>" + "+1</button></td>";
+				drink += "<td>" + "<button class='countDown''data-drinkId='" + drinkId + "'>" + "-1</button></td>";
+				drink += "<td>" + "<button class='delete' data-drinkId='" + drinkId + "'>" + "삭제</button></td>";
+				drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
+
+				drink += "</tr>";
+
+				$("#cartTable tbody").append(drink);
+			}
+
 
 		});	
 		
