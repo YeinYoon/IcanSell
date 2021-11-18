@@ -1,6 +1,7 @@
 package com.codeyeji.IcanSell.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +60,13 @@ public class ApiController {
 
 	
 	@PostMapping("/addDrink")
-	public String addDrinkImage(
+	public void addDrinkImage(
 			@RequestParam(name="dName") String dName,
 			@RequestParam(name="dPrice") int dPrice,
 			@RequestParam(name="dStock") int dStock,
 			@RequestParam(name="dImage") MultipartFile files,
-			HttpServletRequest request) {
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 
 		Drink drink = new Drink(dName,dPrice,dStock);
 		String path =  request.getSession().getServletContext().getRealPath("\\");
@@ -89,11 +92,9 @@ public class ApiController {
 				drink.setStatId(statId2); // 재고소진(입고예정)으로 변경
 			}
 			adminService.addDrink(drink);
-			return "<h2>상품 등록이 완료되었습니다. </h2>"
-					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/edit\" />"; // 등록 성공한 후 이동할 페이지
+			response.sendRedirect("/admin/addOk"); // 등록 성공한 후 이동할 페이지
 		} else {
-			return "<h2>상품 등록을 실패하였습니다. 중복된 음료입니다. </h2>"
-					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/add\" />"; // 등록 실패한 후 이동할 페이지
+			response.sendRedirect("/admin/addFail"); // 등록 실패한 후 이동할 페이지
 		}
 		
 	}
@@ -166,18 +167,18 @@ public class ApiController {
 	}
 	
 	@PostMapping("/putDrinkImg")
-	public String putDrinkImg(
+	public void putDrinkImg(
 			@RequestParam(name="drinkId") int drinkId,
 			@RequestParam(name="newdImg") MultipartFile newFiles,
 			@RequestParam(name="currentdImgSrc") String currentdImgSrc,
-			HttpServletRequest request) {
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 		
 		Optional<Drink> findDrink = adminService.findDrinkId(drinkId);
 		if(findDrink.isPresent()) {
 			
 			if(newFiles.isEmpty()) { // 업로드된 이미지가 없을 경우
-				return "<h2>업로드 된 이미지가 존재하지 않습니다. 파일 업로드 내역을 확인해주세요.</h2>"
-						+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/testCrud\" />";
+				response.sendRedirect("/admin/imageFail");
 			} else { // 업로드 된 이미지가 있을 경우
 				
 				try { // 이미지 경로 및 이름 바꾸기
@@ -198,14 +199,13 @@ public class ApiController {
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
-				return "<h2>상품 이미지 수정이 완료되었습니다. </h2>"
-				+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/edit\" />";
+				response.sendRedirect("/admin/imageOk");
 			}
 			
 		} else { // 업로드 된 이미지가 있으나 알 수 없는 오류일 경우
-			return "<h2>이미지 수정을 실패하였습니다.</h2>"
-					+ "<meta http-equiv=\"refresh\" content=\"2;url=/admin/add\" />";
+			response.sendError(0, "ERROR!!!");
 		}	
+		
 	}
 	
 	
