@@ -64,6 +64,26 @@ public class WebController {
 		}
 		
 		
+		//등록, 수정에 대한 응답결과 페이지
+		@GetMapping("/addOk")
+		public String getAdminOk() {
+			return "admin/addOk";
+		}
+		@GetMapping("/addFail")
+		public String getAdminFail() {
+			return "admin/addFail";
+		}
+		
+		@GetMapping("/imageOk")
+		public String getAdminImgOk() {
+			return "admin/imageOk";
+		}
+		@GetMapping("/imageFail")
+		public String getAdminImgFail() {
+			return "admin/imageFail";
+		}
+		
+		
 	// 테스트용(코드 테스트용)	
 		@GetMapping("/test")
 		public String getAdminTest(Model model) {
