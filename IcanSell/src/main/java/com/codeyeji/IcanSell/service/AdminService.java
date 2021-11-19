@@ -1,6 +1,7 @@
 package com.codeyeji.IcanSell.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,14 @@ public class AdminService {
 	
 	public List<Sales> findSalesAll() {
 		return salesRepository.findAll();
+	}
+	
+	public List<Sales> findSales(String drinkName, String startDate, String endDate) {
+		return salesRepository.findSales(drinkName, startDate, endDate);
+	}
+	
+	public List<Sales> findSalesDate(String startDate, String endDate) {
+		return salesRepository.findSalesDate(startDate, endDate);
 	}
 	
 	

@@ -26,7 +26,7 @@ public class Sales{
 	private int sCount;
 	private int sPay;
 	private LocalDateTime sDate;
-	private int sPaySum;
+	private int sPaySum;	
 	private String sName;
 
 	@Transient

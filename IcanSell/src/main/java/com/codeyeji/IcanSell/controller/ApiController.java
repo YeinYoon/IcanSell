@@ -3,10 +3,12 @@ package com.codeyeji.IcanSell.controller;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,7 @@ import com.codeyeji.IcanSell.data.Drink;
 import com.codeyeji.IcanSell.data.Result;
 import com.codeyeji.IcanSell.data.Stockstat;
 import com.codeyeji.IcanSell.data.Sales;
+import com.codeyeji.IcanSell.data.Search;
 import com.codeyeji.IcanSell.repository.AdminRepository;
 import com.codeyeji.IcanSell.service.AdminService;
 import com.codeyeji.IcanSell.service.ClientService;
@@ -70,13 +73,18 @@ public class ApiController {
 
 		Drink drink = new Drink(dName,dPrice,dStock);
 		String path =  request.getSession().getServletContext().getRealPath("\\");
-		System.out.println(path);
+		
+		UUID uuid = UUID.randomUUID();
+		String saveImgName = uuid.toString()+"_"+files.getOriginalFilename();
 		try { // 이미지 경로를 DB에 셋팅
 			String baseDir = path;
-			String filePath = baseDir + "\\static\\drinkImages\\" + files.getOriginalFilename();
+			String filePath = baseDir + "\\static\\drinkImages\\" + saveImgName;
+		
+			System.out.println(filePath);
+			
 			files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
 			drink.setdImgSrc(filePath);
-			drink.setdImgName(files.getOriginalFilename());
+			drink.setdImgName(saveImgName);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -279,6 +287,18 @@ public class ApiController {
 			return new Result("ok");
 		}
 	}
+	
+	@PostMapping("/search")
+	public List<Sales> searchSales(@RequestBody Search search) {
+		if(search.getDrinkName()=="") {
+			List<Sales> findSales = adminService.findSalesDate(search.getStartDate(), search.getEndDate());
+			return findSales;
+		} else {
+			List<Sales> findSales = adminService.findSales(search.getDrinkName(), search.getStartDate(), search.getEndDate());
+			return findSales;
+		}
+	}
+	
 	
 	
 	
