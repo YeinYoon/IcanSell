@@ -1,270 +1,295 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<title>상품 수정 페이지</title>
-	<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+		integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+		crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div id="content">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand fw-bold">관리자 페이지</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/admin/add">상품 등록</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin/edit">상품 수정</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/admin/member">관리자 등록</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<p class="text-center fw-bold display-5 mt-5 mb-5">상품 수정</p>
+		<div th:if="${not #lists.isEmpty(drinks)}">
 
-	음료목록
-	<div th:if="${not #lists.isEmpty(drinks)}">
+			<table class="table mb-3">
+				<thead>
+					<th>이미지</th>
+					<th>이름</th>
+					<th>가격</th>
+					<th>재고</th>
+					<th>상태</th>
+					<th>삭제</th>
+					<th>이름수정</th>
+					<th>가격수정</th>
+					<th>재고수정</th>
+					<th>이미지수정</th>
+				</thead>
+				<tbody>
+					<tr th:each="d: ${drinks}">
+						<td class="dImg" data-th-dImgSrc="${d.dImgSrc}" data-th-dImgName="${d.dImgName}">
+							<img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=30 height=30 />
+						</td>
+						<td class="dName" data-th-drinkId="${d.drinkId}" th:text="${d.dName}"></td>
+						<td class="dPrice" th:text="${d.dPrice}"></td>
+						<td class="dStock" th:text="${d.dStock}"></td>
+						<td class="stat" data-th-statId="${d.statId.statId}" th:text="${d.statId.statName}"></td>
+						<td><button class="delete">삭제</button></td>
+						<td><button class="putName">이름수정</button></td>
+						<td><button class="putPrice">가격수정</button></td>
+						<td><button class="putStock">재고수정</button></td>
+						<td>
+							<form th:action="@{/api/putDrinkImg}" method="POST" enctype="multipart/form-data">
+								<input name="drinkId" type="hidden" th:value="${d.drinkId}">
+								<input name="currentdImgSrc" type="hidden" th:value="${d.dImgSrc}">
+								<input name="newdImg" type="file">
+								<input class="putImg" value="이미지 수정" type="submit"></button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-		<table border="2px">
-			<thead>
-				<th>이미지</th>
-				<th>이름</th>
-				<th>가격</th>
-				<th>재고</th>
-				<th>상태</th>
-				<th>삭제</th>
-				<th>이름수정</th>
-				<th>가격수정</th>
-				<th>재고수정</th>
-				<th>이미지수정</th>
-			</thead>
-			<tbody>
-				<tr th:each="d: ${drinks}">
-					<td class="dImg" data-th-dImgSrc="${d.dImgSrc}" data-th-dImgName="${d.dImgName}">
-						<img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=30 height=30 />
-					</td>
-					<td class="dName" data-th-drinkId="${d.drinkId}" th:text="${d.dName}"></td>
-					<td class="dPrice" th:text="${d.dPrice}"></td>
-					<td class="dStock" th:text="${d.dStock}"></td>
-					<td class="stat" data-th-statId="${d.statId.statId}" th:text="${d.statId.statName}"></td>
-					<td><button class="delete">삭제</button></td>
-					<td><button class="putName">이름수정</button></td>
-					<td><button class="putPrice">가격수정</button></td>
-					<td><button class="putStock">재고수정</button></td>
-					<td>
-						<form th:action="@{/api/putDrinkImg}" method="POST" enctype="multipart/form-data">
-							<input name="drinkId" type="hidden" th:value="${d.drinkId}">
-							<input name="currentdImgSrc" type="hidden" th:value="${d.dImgSrc}">
-							<input name="newdImg" type="file">
-							<input class="putImg" value="이미지 수정" type="submit"></button>
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<a href="/admin/add">새 상품 등록하러가기</a>
-
+		<div th:unless="${not #lists.isEmpty(drinks)}">
+			<h2 class="display-5 text-danger">현재 등록된 상품이 없습니다.</h2>
+			<button type="button" onclick="location.href = '/admin/add'" class="btn btn-success">등록하러 가기</button>
+		</div>
 	</div>
 
-	<div th:unless="${not #lists.isEmpty(drinks)}">
-		<h2>현재 등록된 상품이 없습니다.</h2>
-		<a href="/admin/add">등록하러가기</a>
-	</div>
-
-</div>
 
 
 
 
+	<script th:inline="javascript">
+		$(() => {
 
-<script th:inline="javascript">
-	$(() => {
+			// 상품 삭제
+			$('.delete').click(function () {
+				if (confirm("선택한 상품을 삭제하시겠습니까?") == false) {
+					alert("취소되었습니다.")
+				} else {
 
-		// 상품 삭제
-		$('.delete').click(function () {
-			if (confirm("선택한 상품을 삭제하시겠습니까?") == false) {
-				alert("취소되었습니다.")
-			} else {
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+					var dImgSrc = $(this).closest("tr").children().eq(0).attr("dImgSrc");
+					var obj = {
+						drinkId: drinkId,
+						dImgSrc: dImgSrc
+					}
+					var data = JSON.stringify(obj);
 
-				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
-				var dImgSrc = $(this).closest("tr").children().eq(0).attr("dImgSrc");
-				var obj = {
-					drinkId: drinkId,
-					dImgSrc: dImgSrc
+					const url = "/api/deleteDrink";
+
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+					$.ajax({
+						url: url,
+						type: "delete",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
+						.done((result) => {
+							if (result.result == "ok") {
+								console.log(result);
+								alert("삭제가 완료되었습니다.")
+								location.href = "/admin/edit";
+							} else {
+								console.log(result);
+								alert("삭제를 실패하였습니다. 해당 상품이 존재하지 않습니다.")
+							}
+						})
+						.fail((err) => {
+							alert("ERR : 삭제실패")
+						});
+
 				}
-				var data = JSON.stringify(obj);
 
-				const url = "/api/deleteDrink";
+			});
 
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
 
-				$.ajax({
-					url: url,
-					type: "delete",
-					contentType: 'application/json',
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
-					.done((result) => {
-						if (result.result == "ok") {
+			// 상품 이름 수정
+			$('.putName').click(function () {
+				var nameInput = prompt("해당 상품의 새로운 이름을 입력해주세요.");
+				if (nameInput == "" || nameInput == $("#dName").text()) {
+					alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
+				} else if (nameInput == null) {
+					alert("취소되었습니다.");
+				} else {
+
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+
+					var obj = {
+						drinkId: drinkId,
+						newdName: nameInput
+					}
+					var data = JSON.stringify(obj);
+
+					const url = "/api/putDrinkName";
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+					$.ajax({
+						url: url,
+						type: "put",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
+						.done((result) => {
 							console.log(result);
-							alert("삭제가 완료되었습니다.")
-							location.href = "/admin/edit";
-						} else {
+							if (result.result == "ok") {
+								alert("상품 이름 변경이 완료되었습니다.");
+								location.href = "/admin/edit"
+							} else {
+								alert("이름 변경을 실패하였습니다.");
+							}
+
+						})
+						.fail((err) => {
+							console.log(err);
+							alert("ERR : 변경실패")
+						});
+
+				}
+
+			});
+
+
+			//상품 가격 변경
+			$('.putPrice').click(function () {
+				var priceInput = prompt("해당 상품의 새로운 가격을 입력해주세요.");
+				if (priceInput == null) {
+					alert("취소되었습니다.");
+				} else if (priceInput == "" || priceInput <= 0) {
+					alert("공백값이나 0원 미만의 가격은 입력할 수 없습니다.");
+				} else if (priceInput == $(this).closest("tr").children().eq(2).text()) {
+					alert("동일한 가격은 입력할 수 없습니다.");
+				} else {
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+
+					var obj = {
+						drinkId: drinkId,
+						newdPrice: priceInput
+					}
+					var data = JSON.stringify(obj);
+
+					const url = "/api/putDrinkPrice";
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+					$.ajax({
+						url: url,
+						type: "put",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
+						.done((result) => {
 							console.log(result);
-							alert("삭제를 실패하였습니다. 해당 상품이 존재하지 않습니다.")
-						}
-					})
-					.fail((err) => {
-						alert("ERR : 삭제실패")
-					});
+							if (result.result == "ok") {
+								alert("상품 가격 변경이 완료되었습니다.");
+								location.href = "/admin/edit"
+							} else {
+								alert("가격 변경을 실패하였습니다.");
+							}
 
-			}
+						})
+						.fail((err) => {
+							console.log(err);
+							alert("ERR : 변경실패")
+						});
 
-		});
-
-
-		// 상품 이름 수정
-		$('.putName').click(function () {
-			var nameInput = prompt("해당 상품의 새로운 이름을 입력해주세요.");
-			if (nameInput == "" || nameInput == $("#dName").text()) {
-				alert("공백값이나 동일한 이름은 입력할 수 없습니다.");
-			} else if (nameInput == null) {
-				alert("취소되었습니다.");
-			} else {
-
-				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
-
-				var obj = {
-					drinkId: drinkId,
-					newdName: nameInput
 				}
-				var data = JSON.stringify(obj);
 
-				const url = "/api/putDrinkName";
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+			});
 
-				$.ajax({
-					url: url,
-					type: "put",
-					contentType: 'application/json',
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
-					.done((result) => {
-						console.log(result);
-						if (result.result == "ok") {
-							alert("상품 이름 변경이 완료되었습니다.");
-							location.href = "/admin/edit"
-						} else {
-							alert("이름 변경을 실패하였습니다.");
-						}
 
+			//상품 재고 변경
+			$('.putStock').click(function () {
+				var stockInput = prompt("해당 상품의 재고를 입력해주세요.");
+				if (stockInput == "" || stockInput < 0) {
+					alert("공백값이나 0개 미만은 입력할 수 없습니다.");
+				} else if (stockInput == null) {
+					alert("취소되었습니다.");
+				} else {
+
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+
+					var obj = {
+						drinkId: drinkId,
+						newdStock: stockInput
+					}
+					var data = JSON.stringify(obj);
+
+					const url = "/api/putDrinkStock";
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+
+					$.ajax({
+						url: url,
+						type: "put",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
 					})
-					.fail((err) => {
-						console.log(err);
-						alert("ERR : 변경실패")
-					});
+						.done((result) => {
+							console.log(result);
+							if (result.result == "ok") {
+								alert("상품 재고 변경이 완료되었습니다.");
+								location.href = "/admin/edit"
+							} else {
+								alert("재고 변경을 실패하였습니다.");
+							}
 
-			}
+						})
+						.fail((err) => {
+							console.log(err);
+							alert("ERR : 변경실패")
+						});
 
-		});
-
-
-		//상품 가격 변경
-		$('.putPrice').click(function () {
-			var priceInput = prompt("해당 상품의 새로운 가격을 입력해주세요.");
-			if (priceInput == null) {
-				alert("취소되었습니다.");
-			} else if (priceInput == "" || priceInput <= 0) {
-				alert("공백값이나 0원 미만의 가격은 입력할 수 없습니다.");
-			} else if (priceInput == $(this).closest("tr").children().eq(2).text()) {
-				alert("동일한 가격은 입력할 수 없습니다.");
-			} else {
-				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
-
-				var obj = {
-					drinkId: drinkId,
-					newdPrice: priceInput
 				}
-				var data = JSON.stringify(obj);
 
-				const url = "/api/putDrinkPrice";
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+			});
 
-				$.ajax({
-					url: url,
-					type: "put",
-					contentType: 'application/json',
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
-					.done((result) => {
-						console.log(result);
-						if (result.result == "ok") {
-							alert("상품 가격 변경이 완료되었습니다.");
-							location.href = "/admin/edit"
-						} else {
-							alert("가격 변경을 실패하였습니다.");
-						}
 
-					})
-					.fail((err) => {
-						console.log(err);
-						alert("ERR : 변경실패")
-					});
-
-			}
 
 		});
 
-
-		//상품 재고 변경
-		$('.putStock').click(function () {
-			var stockInput = prompt("해당 상품의 재고를 입력해주세요.");
-			if(stockInput == "" || stockInput < 0) {
-				alert("공백값이나 0개 미만은 입력할 수 없습니다.");
-			} else if(stockInput == null) {
-				alert("취소되었습니다.");
-			} else {
-
-				var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
-
-				var obj = {
-					drinkId: drinkId,
-					newdStock: stockInput
-				}
-				var data = JSON.stringify(obj);
-
-				const url = "/api/putDrinkStock";
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
-
-				$.ajax({
-					url: url,
-					type: "put",
-					contentType: 'application/json',
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
-					.done((result) => {
-						console.log(result);
-						if (result.result == "ok") {
-							alert("상품 재고 변경이 완료되었습니다.");
-							location.href = "/admin/edit"
-						} else {
-							alert("재고 변경을 실패하였습니다.");
-						}
-
-					})
-					.fail((err) => {
-						console.log(err);
-						alert("ERR : 변경실패")
-					});
-
-			}
-
-		});
-
-
-
-	});
-
-</script>
+	</script>
 
 </body>
+
 </html>
