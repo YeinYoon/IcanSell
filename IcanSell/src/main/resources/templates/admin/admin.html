@@ -3,28 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </head>
 <body>
- <nav class="nav">
-        <div class="as">
-        <a href="/admin/add">상품 등록</a>
-        <a href="/admin/edit">상품 수정</a>
-        <a href="/admin/member">관리자 등록</a>
-    </div>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand fw-bold">관리자 페이지</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin/add">상품 등록</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/edit">상품 수정</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/member">관리자 등록</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-    <div class="login">
-        <b style="font-size: 25px;">[ Admin ]</b> <h2 sec:authentication="name"></h2>
-		<form name="logoutForm" th:action="@{/logout}" method="post">
-			<input type="submit" value="로그아웃" />
-		</form>
-    </div>
 
-
-    <div class="content">
-        <h3>매출 통계</h3>
-        <label id="year">조회일자 <select>
-            <option value="">2020</option>
+    <div class="container">
+        <div class="login mt-3">
+            <p class="fs-4 text-end fw-bold" sec:authentication="name"></p> 
+              
+            <form name="logoutForm" th:action="@{/logout}" method="post" class="text-end">
+                <input class="btn btn-success btn-sm" type="submit" value="로그아웃">
+            </form>
+        </div>
+        <div class="content text-center">
+        <h1 class="fs-1 fw-bold">매출 통계</h1>
+        <label id="year" class="mt-3">조회 일자 <select>
             <option value="" selected="selected">2021</option>
         </select>년</label>
         <label id="month">
@@ -42,20 +59,36 @@
          <option value="11">11</option>
          <option value="12">12</option>
         </select>월</label>
-        <button type="button" id="lookUp">조회</button><br><br>
-     
-        <table>
+        <button class="btn btn-success btn-sm" type="button" id="lookUp">조회</button><br><br>
+ 
+
+        <table class="table mt-3">
             <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>모델명</th>
-                    <th>판매량</th>
-                </tr>
+              <tr class="bg-light">
+                <th scope="col">No.</th>
+                <th scope="col">모델명</th>
+                <th scope="col">판매량</th>
+              </tr>
             </thead>
             <tbody>
-                
+              <tr>
+                <th scope="row">1</th>
+                <th>1</th>
+                <th>2</th>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <th>1</th>
+                <th>2</th>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <th>1</th>
+                <th>2</th>
+              </tr>
             </tbody>
-        </table>
+          </table>
         </div>
+    </div>
 </body>
 </html>
