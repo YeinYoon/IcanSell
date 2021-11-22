@@ -17,7 +17,7 @@ body{
     margin-left: 28%;
     transform: translateY(-15%);
 }
-button{
+.mainbtn{
     margin-left: 35%;
     transform: trnaslateX(-50%);
     padding: 10px 20px;
