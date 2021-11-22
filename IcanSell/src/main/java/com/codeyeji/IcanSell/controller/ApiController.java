@@ -70,40 +70,47 @@ public class ApiController {
 			@RequestParam(name="dImage") MultipartFile files,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-
-		Drink drink = new Drink(dName,dPrice,dStock);
-		String path =  request.getSession().getServletContext().getRealPath("\\");
 		
-		UUID uuid = UUID.randomUUID();
-		String saveImgName = uuid.toString()+"_"+files.getOriginalFilename();
-		try { // 이미지 경로를 DB에 셋팅
-			String baseDir = path;
-			String filePath = baseDir + "\\static\\drinkImages\\" + saveImgName;
-		
-			System.out.println(filePath);
-			
-			files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
-			drink.setdImgSrc(filePath);
-			drink.setdImgName(saveImgName);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Stockstat statId1 = new Stockstat(1); // 판매중
-		Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)
-		
-		if(adminService.findDrink(drink.getdName())==null) { // 중복되는 음료가 없으면 등록 가능
-			
-			if(drink.getdStock()>0) { // 할당한 재고가 0보다 큰가?
-				drink.setStatId(statId1); // 판매중으로 변경
-			} else {
-				drink.setStatId(statId2); // 재고소진(입고예정)으로 변경
-			}
-			adminService.addDrink(drink);
-			response.sendRedirect("/admin/addOk"); // 등록 성공한 후 이동할 페이지
+		if(files.isEmpty()) { // 업로드된 이미지가 없을 경우
+			response.sendRedirect("/admin/imageFail");
 		} else {
-			response.sendRedirect("/admin/addFail"); // 등록 실패한 후 이동할 페이지
+			
+			Drink drink = new Drink(dName,dPrice,dStock);
+			String path =  request.getSession().getServletContext().getRealPath("\\");
+			
+			UUID uuid = UUID.randomUUID();
+			String saveImgName = uuid.toString()+"_"+files.getOriginalFilename();
+			try { // 이미지 경로를 DB에 셋팅
+				String baseDir = path;
+				String filePath = baseDir + "\\static\\drinkImages\\" + saveImgName;
+			
+				System.out.println(filePath);
+				
+				files.transferTo(new File(filePath)); // 해당 경로에 이미지 파일 저장
+				drink.setdImgSrc(filePath);
+				drink.setdImgName(saveImgName);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			Stockstat statId1 = new Stockstat(1); // 판매중
+			Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)
+			
+			if(adminService.findDrink(drink.getdName())==null) { // 중복되는 음료가 없으면 등록 가능
+				
+				if(drink.getdStock()>0) { // 할당한 재고가 0보다 큰가?
+					drink.setStatId(statId1); // 판매중으로 변경
+				} else {
+					drink.setStatId(statId2); // 재고소진(입고예정)으로 변경
+				}
+				adminService.addDrink(drink);
+				response.sendRedirect("/admin/addOk"); // 등록 성공한 후 이동할 페이지
+			} else {
+				response.sendRedirect("/admin/addFail"); // 등록 실패한 후 이동할 페이지
+			}
+			
 		}
+
 		
 	}
 	

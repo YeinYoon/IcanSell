@@ -11,7 +11,7 @@ import com.codeyeji.IcanSell.data.Sales;
 
 public interface SalesRepository extends JpaRepository<Sales, Integer>{
 
-	@Query(value="SELECT * FROM Sales WHERE DATE(s_date) BETWEEN :startDate AND :endDate AND s_name= :drinkName ORDER BY s_date ASC", nativeQuery = true)
+	@Query(value="SELECT * FROM Sales WHERE DATE(s_date) BETWEEN :startDate AND :endDate AND s_name LIKE CONCAT('%',:drinkName,'%') ORDER BY s_date ASC", nativeQuery = true)
 	List<Sales> findSales (
 			@Param("drinkName") String drinkName, 
 		    @Param("startDate") String startDate,

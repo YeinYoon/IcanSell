@@ -87,25 +87,30 @@
 				var aName = $("#aName").val();
 				var aId = $("#aId").val();
 				var aPw = $("#aPw").val();
-				var obj = {
-					adminId: aId,
-					aName: aName,
-					aPw: aPw
-				}
+				
+				if(aName == "" || aId == "" || aPw == "") {
+					alert("등록시 입력값은 하나도 빠짐없이 작성해야 합니다.")
+				} else {
+					
+					var obj = {
+						adminId: aId,
+						aName: aName,
+						aPw: aPw
+					}
 
-				const data = JSON.stringify(obj);
-				const url = "/api/addAdmin";
+					const data = JSON.stringify(obj);
+					const url = "/api/addAdmin";
 
-				const csrfToken =/*[[${_csrf.token}]]*/ null;
-				const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
 
-				$.ajax({
-					url: url,
-					type: "post",
-					contentType: 'application/json',
-					data: data,
-					beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
-				})
+					$.ajax({
+						url: url,
+						type: "post",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
 					.done((result) => {
 						if (result.result == "ok") {
 							alert("관리자 등록 완료");
@@ -116,8 +121,10 @@
 					})
 					.fail((err) => {
 						alert("관리자 등록 실패");
-					});
-
+					});	
+					
+				}	
+			
 			});
 
 			// 관리자 이름 수정
