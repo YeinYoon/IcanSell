@@ -27,7 +27,7 @@ public class WebController {
 	// 인덱스 페이지 웹
 	@GetMapping("/")
 	public String getIndex() {
-		return "index";
+		return "mainIndex";
 	}
 	@GetMapping("/login")
 	public String getLogin() {
