@@ -64,7 +64,6 @@ public class WebController {
 			return "admin/member";
 		}
 		
-		
 		//등록, 수정에 대한 응답결과 페이지
 		@GetMapping("/addOk")
 		public String getAdminOk() {
@@ -84,20 +83,6 @@ public class WebController {
 			return "admin/imageFail";
 		}
 		
-		
-	// 테스트용(코드 테스트용)	
-		@GetMapping("/test")
-		public String getAdminTest(Model model) {
-			model.addAttribute("adminList",adminService.findAdminAll());
-			return "test";
-		}
-		
-		@GetMapping("/testCrud")
-		public String getAdminTestCrud(Model model) {
-			model.addAttribute("drinks", adminService.findDrinkAll());
-			return "testCrud";
-		}
-		
 	}
 	
 	
@@ -107,7 +92,6 @@ public class WebController {
 	 return "denied";
 	}
 
-	
 	
 	// 시스템 관리자 웹
 	@Controller
@@ -131,13 +115,6 @@ public class WebController {
 		public String getMain(Model model) {
 			model.addAttribute("drinks", clientService.findDrinkAll());
 			return "client/main";
-		}
-		
-		// 테스트용(코드 테스트용)	
-		@GetMapping("/testMain")
-		public String getMainTest(Model model) {
-			model.addAttribute("drinks", clientService.findDrinkAll());
-			return "testMain";
 		}
 		
 	}
