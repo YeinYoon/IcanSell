@@ -99,7 +99,8 @@ public class WebController {
 	public class SysAdminWeb {
 
 		@GetMapping("/")
-		public String getSysAdminSeller() {
+		public String getSysAdminSeller(Model model) {
+			model.addAttribute("adminList",adminService.findAdminAll());
 			return "sysadmin/sysadmin";
 		}
 		
