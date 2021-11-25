@@ -208,9 +208,15 @@
 		</table>
 		</div>
 	</div>
-	
-<br>	
+
+
+<br><br>
+<hr>	
 <div class="container">
+	<div style="text-align:right;">
+	총 매출액 : <b id="payTotal"></b>원 <br>
+	총 판매량 : <b id="countTotal"></b>개
+	</div>
 	<canvas id="myChart"></canvas>
 </div>
 
@@ -306,8 +312,8 @@
 
 						}
 						
-						var barData = parseBarChartData(data);
-						drawBarChart(startDate,endDate,barData);
+						var dataList = parseChartData(data);
+						drawChart(startDate,endDate,dataList);
 					}
 							
 				}
@@ -316,17 +322,19 @@
 		}
 
 
-	function parseBarChartData(data) { 
+	function parseChartData(data) { 
 		
 		var chartData = new Array();
 		var index = 0;
 		var pay= 0;
 		var name = "";
 		var sum = 0;
+		var count = 0;
 		
 		chartData.push({
 			sName: data[0].sName,
-			sPaySum: data[0].sPaySum
+			sPaySum: data[0].sPaySum,
+			sCount: data[0].sCount
 		})
 
 		for(var i=0; i < data.length-1; i++) {
@@ -337,22 +345,43 @@
 					isExist = true;
 					index = k;
 					sum = data[i+1].sPaySum;
+					count = data[i+1].sCount;
 				} else {
 					name = data[i+1].sName;
 					sum = data[i+1].sPaySum;
+					count = data[i+1].sCount;
 				}
 			}	
 			
 			if (isExist == true) {
 				chartData[index].sPaySum += sum;
+				chartData[index].sCount += count;
 			} else if (isExist == false) {
 				chartData.push({
 					sName: name,
-					sPaySum: sum
+					sPaySum: sum,
+					sCount: count
 				})
 			}	
 						
 		}
+		
+		
+		var sPaySumAll = 0; // 매출액 합계
+		for(var i=0; i<chartData.length; i++) {
+			 sPaySumAll += chartData[i].sPaySum;
+		}
+		
+		var sCountAll = 0; // 판매량 합계
+		for(var i=0; i<chartData.length; i++) {
+			 sCountAll += chartData[i].sCount;
+		}
+		
+		
+		chartData.push({
+			sPaySumAll : sPaySumAll,
+			sCountAll : sCountAll
+		})
 		
 		console.log(chartData);
 		return chartData;		
@@ -361,7 +390,7 @@
 	
 
 
-// 차트	
+		// 차트 기본틀
 		var ctx = $('#myChart');
 		var myChart = new Chart(ctx, {
 			type: "bar",
@@ -370,10 +399,19 @@
 				datasets: [
 					{ // 바 차트
 						type : 'bar',
-						label: '', data: [], // 총매출 값
+						label: '', data: [], // 상품별 매출 값
 						backgroundColor: [],
 						borderColor: [],
 						borderWidth: 1.5,
+					},
+					{ // 라인차트
+						type : 'line',
+						label: '', data: [], // 상품별 판매량 값
+                 		fill : false,         // 채우기 없음
+                  		lineTension : 0,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+                    	pointRadius : 5,    // 각 지점의 포인트 크기
+                    	backgroundColor: 'red',
+                    	borderColor: '#ff7f00',
 					},
 				],
 			},
@@ -389,7 +427,7 @@
 						}
 					}]
 				},
-				title: { display : true, text: '매출통계', fontSize:20 }
+				title: { display : true, text: '', fontSize:20 }
 			},
 		})
 	
@@ -417,21 +455,35 @@
 	}
 	
 	
-	function drawBarChart(sDate,eDate,dataList) {	
+	function drawChart(sDate,eDate,dataList) {
+		// 이전에 남아있던 그래프 데이터 초기화
 		myChart.data.labels = [];
 		myChart.data.datasets[0].data = [];
+		myChart.data.datasets[1].data = [];
 		myChart.data.datasets[0].backgroundColor = [];
 		myChart.data.datasets[0].borderColor = [];
 		
-		myChart.data.datasets[0].label = "총 매출액 (상품별)";
+		// 차트 제목
 		myChart.options.title.text = sDate + " ~ " + eDate;
 		
-		for (var i = 0; i < dataList.length; i++) {
+		// 데이터 라벨
+		myChart.data.datasets[0].label = "매출액 (상품별)";
+		myChart.data.datasets[1].label = "판매량(단위 : 개)";
+		
+		for (var i = 0; i < dataList.length-1; i++) { // 총 매출합계를 뺀 상품별 매출 데이터 삽입 (바 차트)
 			myChart.data.labels.push(dataList[i].sName);
 			myChart.data.datasets[0].data.push(dataList[i].sPaySum);
 			myChart.data.datasets[0].backgroundColor.push(getRandomColor());
 			myChart.data.datasets[0].borderColor.push(getBorderColor());
-		}	
+		}
+		
+		for (var i = 0; i < dataList.length-1; i++) { // 상품별 판매량 데이터 삽입 (라인 차트)
+			myChart.data.datasets[1].data.push(dataList[i].sCount);
+		}
+		
+		$("#payTotal").text(dataList[dataList.length-1].sPaySumAll.toLocaleString("ko-KR"));
+		$("#countTotal").text(dataList[dataList.length-1].sCountAll);
+		
 		myChart.update();
 		
 	}
