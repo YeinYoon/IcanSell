@@ -49,11 +49,11 @@
 			</div>
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="inputGroup-sizing-default">가격</span>
-				<input name="dPrice" type="text" class="form-control">
+				<input name="dPrice" value=0 type="number" class="form-control">
 			</div>
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="inputGroup-sizing-default">수량</span>
-				<input name="dStock" type="text" class="form-control">
+				<input name="dStock" value=0 type="number" class="form-control">
 			</div>
 			<div class="input-group mb-3">
 				<input name="dImage" type="file" class="form-control" id="inputGroupFile04"
@@ -71,6 +71,7 @@
 	
 <script>
 	$(()=> {
+		
 		$("#inputGroupFile04").change(function(){
 			setImageFromFile(this,"#preview");
 		})

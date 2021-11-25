@@ -338,6 +338,7 @@
 			sCount: data[0].sCount
 		})
 
+		// 중복된 음료 이름값은 빼내고, 매출액은 합하는 작업 -> 결과물 : {sName : 음료이름, sPaySum : 매출액 합계 값}
 		for(var i=0; i < data.length-1; i++) {
 			var isExist = false;
 			
@@ -368,18 +369,17 @@
 		}
 		
 		
-		var sPaySumAll = 0; // 매출액 합계
+		var sPaySumAll = 0; // 총 매출액 합계
 		for(var i=0; i<chartData.length; i++) {
 			 sPaySumAll += chartData[i].sPaySum;
 		}
 		
-		var sCountAll = 0; // 판매량 합계
+		var sCountAll = 0; // 총 판매량 합계
 		for(var i=0; i<chartData.length; i++) {
 			 sCountAll += chartData[i].sCount;
 		}
 		
-		
-		chartData.push({
+		chartData.push({ // 마지막 인덱스값으로 사용될 것
 			sPaySumAll : sPaySumAll,
 			sCountAll : sCountAll
 		})

@@ -71,8 +71,8 @@ public class ApiController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		
-		if(files.isEmpty()) { // 업로드된 이미지가 없을 경우
-			response.sendRedirect("/admin/imageFail");
+		if(files.isEmpty() || dName=="" || dPrice == 0) { // 업로드된 이미지가 없을 경우 또는 입력값 누락시
+			response.sendRedirect("/admin/addFail");
 		} else {
 			
 			Drink drink = new Drink(dName,dPrice,dStock);

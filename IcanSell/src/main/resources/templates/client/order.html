@@ -34,8 +34,8 @@ integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="ano
 			
 			<p class="fs-3 mt-5 text-center">총금액 : <b class="fs-3" id="sum"></b>원</p>
 			<div class="text-center mt-5">
-			<button class="btn btn-warning btn-lg text-default" id="card">카드로 결제하기</button>
-			<button class="btn btn-success btn-lg text-default" id="cash">현금으로 결제하기</button>
+			<button class="btn btn-warning btn-lg text-default pay">카드로 결제하기</button>
+			<button class="btn btn-success btn-lg text-default pay">현금으로 결제하기</button>
 			</div>
 			
 		</div>
@@ -64,7 +64,7 @@ integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="ano
 		$("#sum").text(sum); // 총금액 보여줌
 		
 		
-		$("#cash").on('click', ()=> { // 결제
+		$(".pay").on('click', ()=> { // 결제
 			var drinkData = new Array();
 			
 			for(var i=0; i<$("#cartTable tbody tr").length; i++) { // 객체 배열 생성
