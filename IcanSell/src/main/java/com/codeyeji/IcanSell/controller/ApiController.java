@@ -134,7 +134,38 @@ public class ApiController {
 			return new Result("ng");
 		}
 	}
+	
+	@PutMapping("/putHideDrink")
+	public Result putHideDrink(@RequestBody Drink drink) {
+		Drink findDrink = adminService.findDrinkId(drink.getDrinkId()).get();
+		if(findDrink == null) {
+			return new Result("ng");
+		} else {
+			Stockstat statId3 = new Stockstat(3); 
+			findDrink.setStatId(statId3);
+			adminService.addDrink(findDrink);
+			return new Result("ok");
+		}
 
+	}
+	
+	@PutMapping("/putNonHideDrink")
+	public Result putNonHideDrink(@RequestBody Drink drink) {
+		Drink findDrink = adminService.findDrinkId(drink.getDrinkId()).get();
+		if(findDrink == null) {
+			return new Result("ng");
+		} else {
+			Stockstat statId1 = new Stockstat(1); // 판매중으로 변경
+			findDrink.setStatId(statId1);
+			adminService.addDrink(findDrink);
+			return new Result("ok");
+		}
+
+	}
+	
+	
+	
+	
 	@PutMapping("/putDrinkName")
 	public Result putDrinkName(@RequestBody Drink drink) {
 		Optional<Drink> findDrink = adminService.findDrinkId(drink.getDrinkId());
@@ -163,11 +194,14 @@ public class ApiController {
 	public Result putDrinkStock(@RequestBody Drink drink) {
 		Stockstat statId1 = new Stockstat(1); // 판매중
 		Stockstat statId2 = new Stockstat(2); // 재고소진(입고예정)
-		
+		Stockstat statId3 = new Stockstat(3); //  숨김상태
+	
 		Optional<Drink> findDrink = adminService.findDrinkId(drink.getDrinkId());
 		if(findDrink.isPresent()) {
 			
-			if(drink.getNewdStock() == 0) { // 재고 갯수 검사후 상태 부여
+			if(findDrink.get().getStatId().getStatId()==3) {
+				findDrink.get().setStatId(statId3);
+			} else if(drink.getNewdStock() == 0) {
 				findDrink.get().setStatId(statId2);
 			} else {
 				findDrink.get().setStatId(statId1);

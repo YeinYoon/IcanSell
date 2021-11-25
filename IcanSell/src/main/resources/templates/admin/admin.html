@@ -60,7 +60,7 @@
                 <a class="nav-link" href="/admin/member">관리자 등록</a>
               </li>
             </ul>
-            <span sec:authentication="name"></span>님
+            <spahn sec:authentication="name"></span>님
 			<form name="logoutForm" th:action="@{/logout}" method="post">
 			<input type="submit" value="로그아웃" />
 			</form>
@@ -214,10 +214,11 @@
 <br><br>
 <hr>	
 <div class="container">
-	<div style="text-align:right;">
-	총 매출액 : <b id="payTotal"></b>원 <br>
-	총 판매량 : <b id="countTotal"></b>개
-	</div>
+
+<div class="text-end">
+<p>총 매출액 : <span class="fw-bold" id="payTotal">원</span></p>
+<p>총 판매량 : <span class="fw-bold" id="countTotal">개</span></p>
+</div>
 	<canvas id="myChart"></canvas>
 </div>
 

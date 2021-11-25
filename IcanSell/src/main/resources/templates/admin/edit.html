@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container">
+	
 		<p class="text-center fw-bold display-5 mt-5 mb-5">상품 수정</p>
 		<div th:if="${not #lists.isEmpty(drinks)}">
 
@@ -56,6 +56,7 @@
 					<th>가격수정</th>
 					<th>재고수정</th>
 					<th>이미지수정</th>
+					<th>숨기기</th>
 				</thead>
 				<tbody>
 					<tr th:each="d: ${drinks}">
@@ -78,10 +79,12 @@
 								<button class="putImg btn btn-success" type="submit">이미지수정</button>
 							</form>
 						</td>
+						<td><input class="isHide" type="checkbox" value="hide" style="width:25px;height:25px;"></td>
+		
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		
 
 		<div th:unless="${not #lists.isEmpty(drinks)}">
 			<h2 class="display-5 text-danger">현재 등록된 상품이 없습니다.</h2>
@@ -95,7 +98,94 @@
 
 	<script th:inline="javascript">
 		$(() => {
+			
 
+			
+			for (var i = 0; i < $("#editTable tbody").children().length; i++) { // 숨겨진 상품 검사기
+				var statId = $("#editTable .stat").eq(i).attr("statId");
+				if (statId == 3) {
+					$("#editTable .isHide").eq(i).prop('checked',true);
+				}
+			}
+			
+			
+			
+			// 상품 숨기기 or 해제
+			$('.isHide').click(function (){
+				if($(this).is(":checked") == true){
+					
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+					var obj = {
+						drinkId: drinkId
+					}
+					var data = JSON.stringify(obj);
+					
+					const url = "/api/putHideDrink";
+					
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+					$.ajax({
+						url: url,
+						type: "put",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
+						.done((result) => {
+							if (result.result == "ok") {
+								console.log(result);
+								alert("숨기기가 완료되었습니다.")
+								location.href = "/admin/edit";
+							} else {
+								console.log(result);
+								alert("숨기기를 실패하였습니다.")
+							}
+						})
+						.fail((err) => {
+							alert("ERR : 숨김실패")
+						});
+						
+				} else{
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+					var obj = {
+						drinkId: drinkId
+					}
+					var data = JSON.stringify(obj);
+					
+					const url = "/api/putNonHideDrink";
+					
+					const csrfToken =/*[[${_csrf.token}]]*/ null;
+					const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
+					$.ajax({
+						url: url,
+						type: "put",
+						contentType: 'application/json',
+						data: data,
+						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
+					})
+						.done((result) => {
+							if (result.result == "ok") {
+								console.log(result);
+								alert("숨김 해제되었습니다.")
+								location.href = "/admin/edit";
+							} else {
+								console.log(result);
+								alert("숨김 해제를 실패하였습니다.")
+							}
+						})
+						.fail((err) => {
+							alert("ERR : 숨김해제 실패")
+						});
+
+				}
+
+				});
+				
+				
+				
+				
+				
+				
 			// 상품 삭제
 			$('.delete').click(function () {
 				if (confirm("선택한 상품을 삭제하시겠습니까?") == false) {
