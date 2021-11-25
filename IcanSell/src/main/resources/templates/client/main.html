@@ -87,7 +87,7 @@ th, td { background: #fff; }
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="d: ${drinks}">
+					<tr th:each="d: ${drinks}" class="drinkTr">
 						<td class="align-middle col-4"><img th:src="@{|/static/drinkImages/${d.dImgName}|}" width=300px;
 								height=300px; /></td>
 						<td class="align-middle" th:text="${d.dName}"></td>
@@ -140,12 +140,12 @@ th, td { background: #fff; }
 	<script th:inline="javascript">
 		$(() => {
 
-			for (var i = 0; i < $("#stockTable tbody").children().length; i++) { // 매진된 상품 검사기
+			for (var i = 0; i < $("#stockTable tbody").children().length; i++) { // 매진된 상품 및 숨겨진 상품 검사기
 				var statId = $("#stockTable .buttons").eq(i).attr("statId");
 				if (statId == 2) {
 					$("#stockTable .buttons").eq(i).prop("disabled", true);
 				}else if(statId == 3){
-					$("")
+					$("#stockTable .drinkTr").eq(i).attr('style', "display:none;");
 				}
 			}
 
