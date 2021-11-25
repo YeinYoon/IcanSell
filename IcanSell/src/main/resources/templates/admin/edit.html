@@ -56,6 +56,7 @@
 					<th>가격수정</th>
 					<th>재고수정</th>
 					<th>이미지수정</th>
+					<th>숨기기</th>
 				</thead>
 				<tbody>
 					<tr th:each="d: ${drinks}">
@@ -78,6 +79,7 @@
 								<button class="putImg btn btn-success" type="submit">이미지수정</button>
 							</form>
 						</td>
+						<td><button class="hide btn btn-success">숨기기</td>
 					</tr>
 				</tbody>
 			</table>
@@ -95,7 +97,14 @@
 
 	<script th:inline="javascript">
 		$(() => {
-
+			// 숨기기
+			$('.hide').click(function (){
+				if(confirm("선택한 상품을 숨기겠습니까?") == false){
+					alert("취소하였습니다")
+				}else{
+					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
+				}
+			})
 			// 상품 삭제
 			$('.delete').click(function () {
 				if (confirm("선택한 상품을 삭제하시겠습니까?") == false) {
