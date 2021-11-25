@@ -23,7 +23,6 @@ public class AdminService {
 	@Autowired
 	private SalesRepository salesRepository;
 	
-	
 	public void addAdmin(Admin admin) {adminRepository.save(admin);} // 관리자 등록
 	public void deleteAdmin(String adminId) {adminRepository.deleteById(adminId);} // 관리자 삭제
 	
@@ -48,7 +47,7 @@ public class AdminService {
 		return drinkRepository.findAll();
 	}
 	
-	public void addDrink(Drink drink) {drinkRepository.save(drink); } // 상품(음료) 등록
+	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록
 	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);} // 상품(음료)삭제
 	
 	public List<Sales> findSalesAll() {
@@ -62,6 +61,7 @@ public class AdminService {
 	public List<Sales> findSalesDate(String startDate, String endDate) {
 		return salesRepository.findSalesDate(startDate, endDate);
 	}
+
 	
 	
 	

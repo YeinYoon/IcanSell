@@ -1,8 +1,6 @@
 package com.codeyeji.IcanSell.data;
 
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.codeyeji.IcanSell.data.Admin;
 
 
 @Entity
@@ -33,25 +28,21 @@ public class Drink { // 음료 테이블
 	private String dImgSrc;
 	private String dImgName;
 	
-	
 	@Transient // 컬럼으로 생성되지 않는 숨겨진 값, 수정용
 	private String newdName;
 	@Transient 
 	private int newdPrice;
 	@Transient 
 	private int newdStock;
-	
 	@Transient 
 	private String newdImgSrc;
-
 	@Transient 
 	private String newdImgName;
-	
 	
 	@ManyToOne(targetEntity=Stockstat.class)
 	@JoinColumn(name="statId")
 	private Stockstat statId;
-		
+
 	public Drink() {}
 	public Drink(String dName, int dPrice, int dStock) {
 		this.dName = dName;
@@ -146,5 +137,6 @@ public class Drink { // 음료 테이블
 	public void setNewdImgName(String newdImgName) {
 		this.newdImgName = newdImgName;
 	}
+
 
 }

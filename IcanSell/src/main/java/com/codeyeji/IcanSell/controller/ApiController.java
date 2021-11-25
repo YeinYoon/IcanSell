@@ -103,7 +103,7 @@ public class ApiController {
 				} else {
 					drink.setStatId(statId2); // 재고소진(입고예정)으로 변경
 				}
-				adminService.addDrink(drink);
+				adminService.addDrink(drink);		
 				response.sendRedirect("/admin/addOk"); // 등록 성공한 후 이동할 페이지
 			} else {
 				response.sendRedirect("/admin/addFail"); // 등록 실패한 후 이동할 페이지
