@@ -60,12 +60,13 @@
                 <a class="nav-link" href="/admin/member">관리자 등록</a>
               </li>
             </ul>
-            <spahn sec:authentication="name"></span>님
+          </div>         
+        </div>
+
+ <span sec:authentication="name" class="nav justify-content-end"></span>님
 			<form name="logoutForm" th:action="@{/logout}" method="post">
 			<input type="submit" value="로그아웃" />
 			</form>
-          </div>
-        </div>
       </nav>
 
 
