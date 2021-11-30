@@ -111,9 +111,9 @@ th, td { background: #fff; }
 					<tr>
 						<th>이름</th>
 						<th>가격</th>
+						<th></th>
 						<th>개수</th>
-						<th>증가</th>
-						<th>감소</th>
+						<th></th>
 						<th>삭제</th>
 					<tr>
 				</thead>
@@ -171,9 +171,9 @@ th, td { background: #fff; }
 
 					drink += "<td>" + dName + "</td>";
 					drink += "<td>" + dPrice + "</td>";
-					drink += "<td>" + 1 + "</td>";
-					drink += "<td>" + "<button type='button' class='countUp btn btn-outline-secondary btn-lg' data-drinkId='" + drinkId + "'>" + "+</button></td>";
 					drink += "<td>" + "<button type='button' class='countDown btn btn-outline-secondary btn-lg''data-drinkId='" + drinkId + "'>" + "-</button></td>";
+					drink += "<td>" + 1 + "</td>";
+					drink += "<td>" + "<button type='button' class='countUp btn btn-outline-secondary btn-lg' data-drinkId='" + drinkId + "'>" + "+</button></td>";	
 					drink += "<td>" + "<button type='button' class='delete btn-close' data-drinkId='" + drinkId + "'>" + "</button></td>";
 					drink += "<td style='visibility:hidden;position:absolute;'>" + drinkIdData + "</td>"
 
@@ -193,24 +193,24 @@ th, td { background: #fff; }
 			$("#cartTable tbody").on("click", ".countUp", function () {
 				var thisId = $(this).closest("tr").attr("id");
 				var stock = $("#stockTable #" + thisId).closest("tr").children().eq(3).text();
-				var count = $(this).closest("tr").children().eq(2).text();
+				var count = $(this).closest("tr").children().eq(3).text();
 
 				if (stock == count) {
 					alert("현재 재고보다 많게 담을 수 없습니다.")
 				} else {
 					count++;
-					$(this).closest("tr").children().eq(2).text(count);
+					$(this).closest("tr").children().eq(3).text(count);
 				}
 
 			});
 
 			$("#cartTable tbody").on("click", ".countDown", function () {
-				var count = $(this).closest("tr").children().eq(2).text();
+				var count = $(this).closest("tr").children().eq(3).text();
 				if (count == 1) {
 					alert("담는 상품의 최소 개수는 1개부터 입니다.")
 				} else {
 					count--;
-					$(this).closest("tr").children().eq(2).text(count);
+					$(this).closest("tr").children().eq(3).text(count);
 				}
 			});
 
