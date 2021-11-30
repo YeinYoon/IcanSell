@@ -103,16 +103,12 @@
 	<script th:inline="javascript">
 		$(() => {
 			
-
-			
 			for (var i = 0; i < $("#editTable tbody").children().length; i++) { // 숨겨진 상품 검사기
 				var statId = $("#editTable .stat").eq(i).attr("statId");
 				if (statId == 3) {
 					$("#editTable .isHide").eq(i).prop('checked',true);
 				}
 			}
-			
-			
 			
 			// 상품 숨기기 or 해제
 			$('.isHide').click(function (){
@@ -135,19 +131,19 @@
 						data: data,
 						beforeSend: function (xhr) {xhr.setRequestHeader(csrfHeader, csrfToken);}
 					})
-						.done((result) => {
-							if (result.result == "ok") {
-								console.log(result);
-								alert("숨기기가 완료되었습니다.")
-								location.href = "/admin/edit";
-							} else {
-								console.log(result);
-								alert("숨기기를 실패하였습니다.")
-							}
-						})
-						.fail((err) => {
-							alert("ERR : 숨김실패")
-						});
+					.done((result) => {
+						if (result.result == "ok") {
+							console.log(result);
+							alert("해당 상품을 숨김처리 하였습니다.")
+							location.href = "/admin/edit";
+						} else {
+							console.log(result);
+							alert("숨기기를 실패하였습니다.")
+						}
+					})
+					.fail((err) => {
+						alert("ERR : 숨김실패")
+					});
 						
 				} else{
 					var drinkId = $(this).closest("tr").children().eq(1).attr("drinkId");
@@ -183,10 +179,7 @@
 
 				}
 
-				});
-				
-				
-				
+			});
 				
 				
 				

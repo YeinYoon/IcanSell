@@ -50,15 +50,15 @@ public class AdminService {
 	public void addDrink(Drink drink) {drinkRepository.save(drink);} // 상품(음료) 등록
 	public void deleteDrink(int drinkId) {drinkRepository.deleteById(drinkId);} // 상품(음료)삭제
 	
-	public List<Sales> findSalesAll() {
+	public List<Sales> findSalesAll() { // 모든 판매내역 조회
 		return salesRepository.findAll();
 	}
 	
-	public List<Sales> findSales(String drinkName, String startDate, String endDate) {
+	public List<Sales> findSales(String drinkName, String startDate, String endDate) { // 이름, 시작일자, 종료일자에 따른 판매내역 조회
 		return salesRepository.findSales(drinkName, startDate, endDate);
 	}
 	
-	public List<Sales> findSalesDate(String startDate, String endDate) {
+	public List<Sales> findSalesDate(String startDate, String endDate) { // 시작일자, 종료일자에 따른 판매내역 조회
 		return salesRepository.findSalesDate(startDate, endDate);
 	}
 

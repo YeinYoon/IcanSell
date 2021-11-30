@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		// 인증하지 않을 주소 추가.
+		// 따로 인증하지 않을 주소(권한 체크 무시)
 		web.ignoring().antMatchers("/static/**");
 	}
 

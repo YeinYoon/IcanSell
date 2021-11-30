@@ -12,7 +12,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous"></script>
-	<title>메인페이지</title>
+	<title>Drink</title>
 <style>
 table { border-collapse: collapse; width: 100%; }
 th, td { background: #fff; }
@@ -139,7 +139,7 @@ th, td { background: #fff; }
 
 	<script th:inline="javascript">
 		$(() => {
-
+			
 			for (var i = 0; i < $("#stockTable tbody").children().length; i++) { // 매진된 상품 및 숨겨진 상품 검사기
 				var statId = $("#stockTable .buttons").eq(i).attr("statId");
 				if (statId == 2) {
@@ -215,8 +215,6 @@ th, td { background: #fff; }
 			});
 
 
-
-
 			$("#order").on('click', () => { // 주문내역 및 결제 페이지로 이동
 
 				if ($("#cartTable tbody").children().length == 0) {
@@ -263,6 +261,7 @@ th, td { background: #fff; }
 				}
 
 			})
+			
 
 		})
 

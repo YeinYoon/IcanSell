@@ -1,6 +1,9 @@
 package com.codeyeji.IcanSell.data;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -42,7 +45,7 @@ public class Drink { // 음료 테이블
 	@ManyToOne(targetEntity=Stockstat.class)
 	@JoinColumn(name="statId")
 	private Stockstat statId;
-
+	
 	public Drink() {}
 	public Drink(String dName, int dPrice, int dStock) {
 		this.dName = dName;

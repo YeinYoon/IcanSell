@@ -160,7 +160,7 @@
 			<option value="31" selected>31</option>
 		</select>일</label>
 
-		<br><input id="drinkName" placeholder="모델 명" class="mt-3">
+		<br><input id="drinkName" placeholder="모델명" class="mt-3">
 		<button type="button" id="lookUp" class="btn btn-success btn-sm">조회</button><br><br>
 
 		<div class="tableFixHead">
@@ -207,23 +207,22 @@
 	
 	
 <script th:inline="javascript">
-	$(() => {
+$(() => {
 
-		getList();
+		getList(); // 바로 모든 판매내역을 불러와 차트 그리기
 
-
-		$("#lookUp").click(function () {
+		$("#lookUp").click(function () { // 조회 버튼을 클릭했을때
 			getList();
 		});
 		
-		$("#drinkName").keydown(function(key) {
+		$("#drinkName").keydown(function(key) { // 이름을 입력하고 엔터를 쳤을때
 			if (key.keyCode == 13) {
 				getList();
 			}
 		})
 		
 		function getList() {
-			var drinkName = $("#drinkName").val();
+			var drinkName = $("#drinkName").val(); // 음료 이름
 			// 시작일
 			var year = $("#year").val();
 			var month = $("#month").val();
@@ -233,10 +232,10 @@
 			var endMonth = $("#endMonth").val();
 			var endDay = $("#endDay").val();
 
-			if (month < 10) {
+			if (month < 10) { // 1월 -> 01월
 				month = "0" + month;
 			}
-			if (day < 10) {
+			if (day < 10) { // 1일 -> 01일
 				day = "0" + day;
 			}
 			if (endMonth < 10) {
@@ -245,8 +244,9 @@
 			if (endDay < 10) {
 				endDay = "0" + endDay;
 			}
-
-			var startDate = year + "-" + month + "-" + day;
+			
+			// 변환값 -> 2021-01-01
+			var startDate = year + "-" + month + "-" + day; 
 			var endDate = endYear + "-" + endMonth + "-" + endDay;
 
 			var obj = {
@@ -256,10 +256,8 @@
 			}
 			var data = JSON.stringify(obj);
 
-
 			const csrfToken =/*[[${_csrf.token}]]*/ null;
 			const csrfHeader =/*[[${_csrf.headerName}]]*/ null;
-
 
 			$.ajax({
 				url: '/api/search',
@@ -269,9 +267,19 @@
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader(csrfHeader, csrfToken);
 				}, success: function (data) {
-					$("#lookUpTable tbody").empty();
-					if (data.length < 0) {
+					$("#lookUpTable tbody").empty(); // 판매내역 테이블 비우기
+					if (data.length <= 0) { // 조회된 데이터가 없다면?
 						alert("조건에 맞는 데이터가 존재하지 않습니다.");
+						
+						myChart.data.labels = [];
+						myChart.data.datasets[0].data = [];
+						myChart.data.datasets[1].data = [];
+						myChart.data.datasets[0].backgroundColor = [];
+						myChart.data.datasets[0].borderColor = [];
+						myChart.update();
+						$("#payTotal").text("0"); 
+						$("#countTotal").text("0");
+						
 					} else {
 						console.log(data);
 						for (var i = 0; i < data.length; i++) {
@@ -293,8 +301,8 @@
 
 						}
 						
-						var dataList = parseChartData(data);
-						drawChart(startDate,endDate,dataList);
+						var dataList = parseChartData(data); // 조회된 데이터를 차트용 데이터로 변환
+						drawChart(startDate,endDate,dataList); // 차트 그리기
 					}
 							
 				}
@@ -303,42 +311,47 @@
 		}
 
 
-	function parseChartData(data) { 
+	function parseChartData(data) { // 차트용 데이터 변환기
 		
-		var chartData = new Array();
-		var index = 0;
-		var pay= 0;
-		var name = "";
-		var sum = 0;
-		var count = 0;
+		var chartData = new Array(); // 차트를 그릴 데이터 배열
 		
-		chartData.push({
+		var index = 0; // 음료 인덱스
+		var pay= 0; // 매출액
+		var name = ""; // 음료이름
+		var sum = 0; // 중복된 이름의 매출액
+		var count = 0; // 중복된 이름의 판매량
+		
+		chartData.push({ // 미리 첫번째 데이터 삽입
 			sName: data[0].sName,
 			sPaySum: data[0].sPaySum,
 			sCount: data[0].sCount
 		})
 
-		// 중복된 음료 이름값은 빼내고, 매출액은 합하는 작업 -> 결과물 : {sName : 음료이름, sPaySum : 매출액 합계 값}
+		// 중복된 음료 이름값은 빼내고, 매출액과 판매량을 합하는 작업 -> 결과물 : {sName : 음료이름, sPaySum : 매출액 합계 값, sCount : 판매량 합계 값}
 		for(var i=0; i < data.length-1; i++) {
-			var isExist = false;
+			
+			var isExist = false; // 중복된 음료 이름값이 들어왔는지에 대한 여부
 			
 			for(var k=0; k<chartData.length; k++) {
-				if(chartData[k].sName == data[i+1].sName) {
-					isExist = true;
-					index = k;
-					sum = data[i+1].sPaySum;
-					count = data[i+1].sCount;
-				} else {
+				if(chartData[k].sName == data[i+1].sName) { // 중복된 음료이름이 들어왔는가?
+					isExist = true; // 있다고 체크
+					index = k; // 현재 ChartData의 인덱스 번호 저장(매출액과 판매량을 더해야 할 음료)
+					sum = data[i+1].sPaySum; // 더할 매출액
+					count = data[i+1].sCount; // 더할 판매량
+				} else { // 중복된 음료 이름이 없는가?
+					// 새롭게 추가할 판매내역 데이터
 					name = data[i+1].sName;
 					sum = data[i+1].sPaySum;
 					count = data[i+1].sCount;
 				}
 			}	
 			
-			if (isExist == true) {
+			if (isExist == true) { // 중복된 음료 이름이 있으면
+				// 해당하는 음료 이름을 찾아 매출액과 판매량을 더해준다
 				chartData[index].sPaySum += sum;
 				chartData[index].sCount += count;
-			} else if (isExist == false) {
+			} else if (isExist == false) { // 중복된 음료이름이 없는가?
+				// 새로운 음료 데이터로 추가
 				chartData.push({
 					sName: name,
 					sPaySum: sum,
@@ -348,13 +361,12 @@
 						
 		}
 		
-		
-		var sPaySumAll = 0; // 총 매출액 합계
+		var sPaySumAll = 0; // 총 매출액 합계 (모든 음료의 매출액 합계)
 		for(var i=0; i<chartData.length; i++) {
 			 sPaySumAll += chartData[i].sPaySum;
 		}
 		
-		var sCountAll = 0; // 총 판매량 합계
+		var sCountAll = 0; // 총 판매량 합계 (모든 음료의 판매량 합계)
 		for(var i=0; i<chartData.length; i++) {
 			 sCountAll += chartData[i].sCount;
 		}
@@ -376,21 +388,21 @@
 			data: {
 				labels: [], // 음료 이름들
 				datasets: [
-					{ // 바 차트
+					{ // 바 차트 (매출액 차트)
 						type : 'bar',
 						label: '', data: [], // 상품별 매출 값
-						backgroundColor: [],
-						borderColor: [],
+						backgroundColor: [], // 랜덤값 넣을 예정
+						borderColor: [], // 랜덤값 넣을 예정
 						borderWidth: 1.5,
 					},
-					{ // 라인차트
+					{ // 라인차트 (판매량 차트)
 						type : 'line',
 						label: '', data: [], // 상품별 판매량 값
-                 		fill : false,         // 채우기 없음
+                 		fill : false,       // 색깔 채우기 없음
                   		lineTension : 0,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
                     	pointRadius : 5,    // 각 지점의 포인트 크기
-                    	backgroundColor: 'red',
-                    	borderColor: '#ff7f00',
+                    	backgroundColor: 'red', // 포인트 색깔
+                    	borderColor: '#ff7f00', // 선 색깔
 					},
 				],
 			},
@@ -398,20 +410,20 @@
 				scales: {
 					yAxes: [{
 						ticks: {
-							beginAtZero: true,
+							beginAtZero: true, // 0부터 시작
 							fontSize: 14,
 							callback: function(value, index) {
-								return value.toLocaleString("ko-KR");
+								return value.toLocaleString("ko-KR"); // 천 단위 콤마 표시
      						}
 						}
 					}]
 				},
-				title: { display : true, text: '', fontSize:20 }
+				title: { display : true, text: '', fontSize:20 } // 차트 제목 (조회된 날짜 들어갈 예정)
 			},
 		})
 	
 	
-	function getRandomColor() { // 차트바 랜덤 컬러
+	function getRandomColor() { // 차트바 랜덤 컬러 생성
 			var color = "rgba("
 			for(var i=0; i<3; i++) {
 				var random = Math.floor(Math.random() * 256); // 255까지의 랜덤값
@@ -422,7 +434,7 @@
 			return color;
 	}
 	
-	function getBorderColor() { // 차트바 랜덤 테두리 컬러
+	function getBorderColor() { // 차트바 랜덤 테두리 컬러 생성
 			var color = "rgba("
 			for(var i=0; i<3; i++) {
 				var random = Math.floor(Math.random() * 256); // 255까지의 랜덤값
@@ -435,6 +447,7 @@
 	
 	
 	function drawChart(sDate,eDate,dataList) {
+		
 		// 이전에 남아있던 그래프 데이터 초기화
 		myChart.data.labels = [];
 		myChart.data.datasets[0].data = [];
@@ -442,32 +455,33 @@
 		myChart.data.datasets[0].backgroundColor = [];
 		myChart.data.datasets[0].borderColor = [];
 		
-		// 차트 제목
+		// 차트 제목 지정 (조회된 날짜 값)
 		myChart.options.title.text = sDate + " ~ " + eDate;
 		
 		// 데이터 라벨
 		myChart.data.datasets[0].label = "매출액 (상품별)";
 		myChart.data.datasets[1].label = "판매량(단위 : 개)";
 		
-		for (var i = 0; i < dataList.length-1; i++) { // 총 매출합계를 뺀 상품별 매출 데이터 삽입 (바 차트)
+		for (var i = 0; i < dataList.length-1; i++) { // 총 매출액 합계를 뺀 상품별 매출 데이터 삽입 (바 차트)
 			myChart.data.labels.push(dataList[i].sName);
 			myChart.data.datasets[0].data.push(dataList[i].sPaySum);
 			myChart.data.datasets[0].backgroundColor.push(getRandomColor());
 			myChart.data.datasets[0].borderColor.push(getBorderColor());
 		}
 		
-		for (var i = 0; i < dataList.length-1; i++) { // 상품별 판매량 데이터 삽입 (라인 차트)
+		for (var i = 0; i < dataList.length-1; i++) { // 총 판매량 합계를 뺀 상품별 판매량 데이터 삽입 (라인 차트)
 			myChart.data.datasets[1].data.push(dataList[i].sCount);
 		}
 		
-		$("#payTotal").text(dataList[dataList.length-1].sPaySumAll.toLocaleString("ko-KR"));
+		// 총 매출액 합계와 총 판매량 합계 (dataList의 마지막 인덱스)
+		$("#payTotal").text(dataList[dataList.length-1].sPaySumAll.toLocaleString("ko-KR")); 
 		$("#countTotal").text(dataList[dataList.length-1].sCountAll);
 		
 		myChart.update();
 		
 	}
 		
-	})
+})
 </script>
 </body>
 </html>

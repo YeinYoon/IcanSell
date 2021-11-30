@@ -28,9 +28,6 @@ public class Sales{
 	private LocalDateTime sDate;
 	private int sPaySum;	
 	private String sName;
-
-	@Transient
-	private Drink drink;
 	
 	public Sales() {}
 	public Sales(String sName, int sPay, int sCount, int sPaySum, LocalDateTime sDate) {

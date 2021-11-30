@@ -76,8 +76,8 @@
 <script>
 	$(()=> {
 		
-		$("#inputGroupFile04").change(function(){
-			setImageFromFile(this,"#preview");
+		$("#inputGroupFile04").change(function(){ // 해당 태그에서 변화가 감지되면? (이미지가 업로드 되었다면)
+			setImageFromFile(this,"#preview"); // 이미지 미리보기
 		})
 		
 		function setImageFromFile(input, expression) {
