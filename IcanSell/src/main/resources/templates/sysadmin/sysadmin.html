@@ -97,7 +97,7 @@
 					.done((result) => {
 						if (result.result == "ok") {
 							alert("관리자 등록 완료");
-							location.href = "/sysadmin"
+							location.href = "/sysadmin/"
 						} else {
 							alert("등록실패! 이미 있는 관리자 입니다.");
 						}
@@ -116,7 +116,7 @@
 				if (deleteAdmin == false) {
 					alert("취소되었습니다.");
 				} else {
-					var adminId = $(this).closest("tr").children().eq(1).text();
+					var adminId = $(this).closest("tr").children().eq(0).text();
 
 					var obj = {
 						adminId: adminId
