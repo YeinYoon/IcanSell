@@ -236,7 +236,11 @@ public class ApiController {
 					String path =  request.getSession().getServletContext().getRealPath("\\"); // webapp 폴더의 상대경로
 					String currnetdImgSrc = currentdImgSrc; // 기존 이미지 경로
 					String baseDir = path;
-					String newFilePath = baseDir + "\\static\\drinkImages\\" + newFiles.getOriginalFilename(); // 새로운 이미지 파일 경로
+					
+					UUID uuid = UUID.randomUUID(); // 이미지에 고유 UUID 부여
+					String saveImgName = uuid.toString()+"_"+newFiles.getOriginalFilename(); // UUID값_이미지이름
+					
+					String newFilePath = baseDir + "\\static\\drinkImages\\" + saveImgName; // 새로운 이미지 파일 경로
 					
 					File file = new File(currnetdImgSrc);
 					file.delete(); // 기존 이미지 삭제
@@ -244,7 +248,7 @@ public class ApiController {
 					
 					newFiles.transferTo(new File(newFilePath)); // 해당 경로에 새로운 이미지 파일 저장
 					findDrink.get().setdImgSrc(newFilePath); // 새로운 이미지 경로로 갱신
-					findDrink.get().setdImgName(newFiles.getOriginalFilename()); // 새로운 이미지 이름으로 갱신
+					findDrink.get().setdImgName(saveImgName); // 새로운 이미지 이름으로 갱신
 					adminService.addDrink(findDrink.get());
 					System.out.println("새 상품이미지 추가 : "+newFilePath);
 				} catch(Exception e) {
