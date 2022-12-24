@@ -29,23 +29,23 @@ public class WebController {
 	public String getIndex() {
 		return "mainIndex";
 	}
+
 	@GetMapping("/login")
 	public String getLogin() {
 		return "admin/login";
 	}
-
+	
+	@GetMapping("/admin")
+	public String getAdminIndex(Model model) {
+		model.addAttribute("salesList", adminService.findSalesAll());
+		return "admin/admin";
+	}
 	
 	// 관리자(판매자) 웹
 	@Controller
 	@RequestMapping("/admin")
 	public class AdminWeb {
 
-		@GetMapping("/")
-		public String getAdminIndex(Model model) {
-			model.addAttribute("salesList", adminService.findSalesAll());
-			return "admin/admin";
-		}
-		
 		@GetMapping("/edit")
 		public String getAdminEdit(Model model) {
 			model.addAttribute("drinks", adminService.findDrinkAll());
